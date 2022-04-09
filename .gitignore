@@ -33,8 +33,12 @@
 
 # .vs
 .vs/
+<<<<<<< HEAD
 *.vs
 *.db
 *.suo
+=======
+*.db
+>>>>>>> 75c047629a7057fd69d0b87ae56f854a0acd41e6
 
 DEBUG/
