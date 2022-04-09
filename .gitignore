@@ -36,6 +36,7 @@
 <<<<<<< HEAD
 *.vs
 *.db
+*.VC.db
 *.suo
-
+*.vcxproj
 DEBUG/
