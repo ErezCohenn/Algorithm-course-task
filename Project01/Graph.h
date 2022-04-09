@@ -22,6 +22,7 @@ public:
 	void RemoveEdge(int u, int v);
 
 	int getGraphSize() const { return numberOfVertex; }
+	AdjacentList* getAdjList(int index) const { return adjListArray[index]; }
 	void printGraph();
 	~WeightedGraph() {
 		for (int i = 0; i < numberOfVertex; i++) {
