@@ -18,7 +18,9 @@ public:
 	DisjointSets();
 	void CreateEmpty(int max);
 	void MakeSet(int newRepresentative);
+
 	int Find(int Node);
+
 	void Union(int representativeSetx, int representativeSety);
 	~DisjointSets();
 	void print() //need to be deleted for submission
