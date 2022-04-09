@@ -1,6 +1,6 @@
 #include "Graph.h"
 
-bool Graph::IsAdjacent(int u, int v)
+bool WeightedGraph::IsAdjacent(int u, int v)
 {
 
 	Edge* currentEdge = adjListArray[u - 1]->getHead();
@@ -16,7 +16,7 @@ bool Graph::IsAdjacent(int u, int v)
 	return false;
 }
 
-void Graph::AddEdge(int u, int v, int c)
+void WeightedGraph::AddEdge(int u, int v, int c)
 {
 	if (!IsAdjacent(u, v))
 	{
@@ -27,12 +27,12 @@ void Graph::AddEdge(int u, int v, int c)
 	}
 }
 
-AdjacentList* Graph::GetAdjList(int u)
+AdjacentList* WeightedGraph::GetAdjList(int u)
 {
 	return adjListArray[u - 1];
 }
 
-void Graph::RemoveEdge(int u, int v)
+void WeightedGraph::RemoveEdge(int u, int v)
 {
 
 	bool edgeToDeleteFound = false;
@@ -54,7 +54,7 @@ void Graph::RemoveEdge(int u, int v)
 	}
 }
 
-void Graph::printGraph()
+void WeightedGraph::printGraph()
 {
 	for (int i = 0; i < numberOfVertex; i++)
 	{
@@ -69,7 +69,7 @@ void Graph::printGraph()
 	}
 }
 
-void Graph::MakeEmptyGraph(int n)
+void WeightedGraph::MakeEmptyGraph(int n)
 {
 	for (int i = 0; i < n; i++)
 	{
