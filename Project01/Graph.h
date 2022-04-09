@@ -15,10 +15,13 @@ public:
 	{
 		MakeEmptyGraph(numberOfVertex);
 	}
+
 	bool IsAdjacent(int u, int v);
 	void AddEdge(int u, int v, int c);
 	AdjacentList* GetAdjList(int u);
 	void RemoveEdge(int u, int v);
+
+	int getGraphSize() const { return numberOfVertex; }
 	void printGraph();
 	~WeightedGraph() {
 		for (int i = 0; i < numberOfVertex; i++) {
