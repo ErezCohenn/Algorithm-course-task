@@ -33,6 +33,9 @@
 
 # .vs
 .vs/
+<<<<<<< HEAD
+*.vs
 *.db
+*.suo
 
 DEBUG/

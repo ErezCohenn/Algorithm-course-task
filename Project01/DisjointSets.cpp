@@ -48,6 +48,12 @@ void DisjointSets::MakeSset(int newRepresentative)
 
 int DisjointSets::Find(int element)
 {
+	if (element >= treeSize)
+	{
+		cout << "wrong input";
+		exit(1);
+	}
+	
 	if (tree[element].parent == element)
 	{
 		return element;
@@ -78,4 +84,14 @@ void DisjointSets::Union(int representativeSetx, int representativeSety)
 		tree[representativeSetx].parent = representativeSety;
 		tree[representativeSety].size += tree[representativeSetx].size;
 	}
+}
+
+DisjointSets::~DisjointSets()
+{
+	if (allocated)
+	{
+		delete[] tree;
+	}
+
+	tree = nullptr;
 }

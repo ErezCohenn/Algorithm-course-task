@@ -20,6 +20,7 @@ public:
 	void MakeSset(int newRepresentative);
 	int Find(int element);
 	void Union(int representativeSetx, int representativeSety);
+	~DisjointSets();
 	void print() //need to be deleted for submission
 	{
 		for (int i = 0; i < treeSize; i++)
