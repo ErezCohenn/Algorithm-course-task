@@ -17,7 +17,7 @@ class DisjointSets
 public:
 	DisjointSets();
 	void CreateEmpty(int max);
-	void MakeSset(int newRepresentative);
+	void MakeSet(int newRepresentative);
 	int Find(int element);
 	void Union(int representativeSetx, int representativeSety);
 	~DisjointSets();

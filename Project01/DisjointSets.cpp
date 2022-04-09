@@ -33,7 +33,7 @@ void DisjointSets::CreateEmpty(int max)
 	treeSize = 0;	
 }
 
-void DisjointSets::MakeSset(int newRepresentative)
+void DisjointSets::MakeSet(int newRepresentative)
 {
 	if (newRepresentative >= maxSize)
 	{

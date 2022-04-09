@@ -1,15 +1,8 @@
 #pragma 
 #include<iostream>
 using namespace std;
-
-struct Edge
-{
-	int vertex;
-	int edgeWeight = 0;
-	Edge* prev = nullptr;
-	Edge* next = nullptr;
-	Edge* twin = nullptr;
-};
+#pragma once
+#include "Edge.h"
 
 class AdjacentList
 {
@@ -17,13 +10,17 @@ class AdjacentList
 	Edge* head;
 	Edge* tail;
 public:
+	AdjacentList()
+	{ 
+		makeEmptyList();
+	}
+
 	Edge* getHead() const { return head; }
 	Edge* getTail() const { return tail; }
-	AdjacentList() { makeEmptyList(); }
 	void makeEmptyList();
 	Edge* createNewEdge(Edge* next, Edge* prev, int weight, int vertex);
 	Edge* insertEdgeToTail(int weight, int vertex);
-	bool isEmptyList(AdjacentList lst);
+	bool isEmptyList(AdjacentList& lst) const;
 	void deleteAfter(Edge* toDelete);
 };
 

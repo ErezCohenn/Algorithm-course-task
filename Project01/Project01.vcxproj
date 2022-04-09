@@ -139,15 +139,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AdjacentList.cpp" />
     <ClCompile Include="DisjointSets.cpp" />
     <ClCompile Include="Ex01.cpp" />
+    <ClCompile Include="Graph.cpp" />
     <ClCompile Include="MinHeap.cpp" />
+    <ClCompile Include="Prim.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AdjacentList.h" />
     <ClInclude Include="DisjointSets.h" />
+    <ClInclude Include="Edge.h" />
     <ClInclude Include="Element.h" />
+    <ClInclude Include="Graph.h" />
     <ClInclude Include="MinHeap.h" />
     <ClInclude Include="Pair.h" />
+    <ClInclude Include="Prim.h" />
     <ClInclude Include="QuickSort.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
