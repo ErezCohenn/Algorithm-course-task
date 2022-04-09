@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="DisjointSets.cpp" />
     <ClCompile Include="Ex01.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="MinHeap.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -149,6 +150,14 @@
     <ClInclude Include="MinHeap.h" />
     <ClInclude Include="Pair.h" />
     <ClInclude Include="QuickSort.h" />
+=======
+    <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="AdjacentList.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Graph.h" />
+    <ClInclude Include="AdjacentList.h" />
+>>>>>>> e3cc0cf (graph class and list class)
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

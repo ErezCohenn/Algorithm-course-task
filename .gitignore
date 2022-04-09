@@ -33,9 +33,11 @@
 
 # .vs
 .vs/
-<<<<<<< HEAD
+
 *.vs
 *.db
 *.suo
-
+*.vcxproj
+*.Project01.vcxproj
 DEBUG/
+*
