@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+# .vs
+.vs/
+*.vs
+*.db
+*.suo
+
+DEBUG/
