@@ -144,7 +144,7 @@
     <ClCompile Include="Ex01.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="MinHeap.cpp" />
-    <ClCompile Include="Prim.cpp" />
+    <ClCompile Include="MST_algorithms.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AdjacentList.h" />
@@ -153,6 +153,7 @@
     <ClInclude Include="Element.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="MinHeap.h" />
+    <ClInclude Include="MST_algorithms.h" />
     <ClInclude Include="Pair.h" />
     <ClInclude Include="Prim.h" />
     <ClInclude Include="QuickSort.h" />
