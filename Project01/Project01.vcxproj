@@ -139,7 +139,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DisjointSets.cpp" />
     <ClCompile Include="Ex01.cpp" />
+    <ClCompile Include="MinHeap.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DisjointSets.h" />
+    <ClInclude Include="Element.h" />
+    <ClInclude Include="MinHeap.h" />
+    <ClInclude Include="Pair.h" />
+    <ClInclude Include="QuickSort.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
