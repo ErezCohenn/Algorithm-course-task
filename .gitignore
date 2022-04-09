@@ -38,7 +38,7 @@
 *.db
 *.VC.db
 *.suo
-*.vcxproj
+*.vcxproj.user
 
 DEBUG/
 *
