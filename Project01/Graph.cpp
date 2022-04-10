@@ -2,7 +2,6 @@
 
 bool Graph::IsAdjacent(int u, int v)
 {
-
 	Edge* currentEdge = adjListArray[u - 1]->getHead();
 
 	while (currentEdge != nullptr)
@@ -54,7 +53,22 @@ void Graph::RemoveEdge(int u, int v)
 	}
 }
 
-void Graph::printGraph()
+Edge* WeightedGraph::getEdge(int u, int v) const
+{
+	Edge* currentEdge = adjListArray[u - 1]->getHead();
+
+	while (currentEdge != nullptr)
+	{
+		if (currentEdge->vertex == v)
+		{
+			return currentEdge;
+		}
+		currentEdge = currentEdge->next;
+	}
+	return nullptr;
+}
+
+void WeightedGraph::printGraph()
 {
 	for (int i = 0; i < numberOfVertex; i++)
 	{
@@ -71,8 +85,12 @@ void Graph::printGraph()
 
 void Graph::MakeEmptyGraph(int n)
 {
+	adjListArray.clear();
+
 	for (int i = 0; i < n; i++)
 	{
 		adjListArray.push_back(new AdjacentList);
 	}
+
+	numberOfVertex = n;
 }
