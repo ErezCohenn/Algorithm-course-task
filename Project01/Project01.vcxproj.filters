@@ -18,12 +18,22 @@
     <ClCompile Include="Ex01.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="MinHeap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DisjointSets.cpp">
+=======
+    <ClCompile Include="Graph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AdjacentList.cpp">
+>>>>>>> e3cc0cf (graph class and list class)
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+<<<<<<< HEAD
     <ClInclude Include="MinHeap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -37,32 +47,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="QuickSort.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClCompile Include="AdjacentList.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graph.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MST_algorithms.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AdjacentList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+=======
     <ClInclude Include="Graph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Prim.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Edge.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MST_algorithms.h">
+    <ClInclude Include="AdjacentList.h">
+>>>>>>> e3cc0cf (graph class and list class)
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

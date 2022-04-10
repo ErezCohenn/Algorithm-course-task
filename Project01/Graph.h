@@ -1,30 +1,31 @@
 #pragma once
 #include <iostream>
 #include<vector>
+#include <iterator>
 #include "AdjacentList.h"
 
 using namespace std;
+// Data structure to store adjacency list nodes
 
-class WeightedGraph
+
+class Graph
 {
+
 	int numberOfVertex;
 	vector<AdjacentList*> adjListArray;
 	void MakeEmptyGraph(int n);
 public:
-	WeightedGraph(int n) : numberOfVertex(n)
+	Graph(int n) :numberOfVertex(n)
 	{
 		MakeEmptyGraph(numberOfVertex);
 	}
-
 	bool IsAdjacent(int u, int v);
 	void AddEdge(int u, int v, int c);
 	AdjacentList* GetAdjList(int u);
 	void RemoveEdge(int u, int v);
-
-	int getGraphSize() const { return numberOfVertex; }
-	AdjacentList getAdjList(int index) const { return *(adjListArray[index]); }
 	void printGraph();
-	~WeightedGraph() {
+	// Destructor
+	~Graph() {
 		for (int i = 0; i < numberOfVertex; i++) {
 			delete[] adjListArray[i];
 		}

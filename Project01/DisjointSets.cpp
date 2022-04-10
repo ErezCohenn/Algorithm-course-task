@@ -2,7 +2,7 @@
 
 DisjointSets::DisjointSets()
 {
-	forestOfGroups = nullptr;
+	tree = nullptr;
 	maxSize = 0;
 	treeSize = 0;
 	allocated = false;
@@ -10,30 +10,30 @@ DisjointSets::DisjointSets()
 
 void DisjointSets::CreateEmpty(int max)
 {
-	if (forestOfGroups)
+	if (tree)
 	{
-		delete[] forestOfGroups;
+		delete[] tree;
 	}
 
 	if (max > 0)
 	{
-		forestOfGroups = new Node[max];
+		tree = new Element[max];
 		allocated = true;
 		maxSize = max;
 
 		for (int i = 0; i < max; i++)
 		{
-			forestOfGroups[i].parent = -1;
-			forestOfGroups[i].size = 0;
+			tree[i].parent = -1;
+			tree[i].size = 0;
 		}
-
+		
 	}
-
+	
 	maxSize = max;
-	treeSize = 0;
+	treeSize = 0;	
 }
 
-void DisjointSets::MakeSet(int newRepresentative)
+void DisjointSets::MakeSset(int newRepresentative)
 {
 	if (newRepresentative >= maxSize)
 	{
@@ -41,47 +41,48 @@ void DisjointSets::MakeSet(int newRepresentative)
 		exit(1);
 	}
 
-	forestOfGroups[newRepresentative].parent = newRepresentative;
-	forestOfGroups[newRepresentative].size = 1;
+	tree[newRepresentative].parent = newRepresentative;
+	tree[newRepresentative].size = 1;
 	treeSize++;
 }
 
-int DisjointSets::Find(int Node)
+int DisjointSets::Find(int element)
 {
-	if (Node >= treeSize)
+	if (element >= treeSize)
 	{
 		cout << "wrong input";
 		exit(1);
 	}
-
-	if (forestOfGroups[Node].parent == Node)
+	
+	if (tree[element].parent == element)
 	{
-		return Node;
+		return element;
 	}
 	else
 	{
-		forestOfGroups[Node].parent = Find(forestOfGroups[Node].parent);
-		return forestOfGroups[Node].parent;
+		tree[element].parent = Find(tree[element].parent);
+
+		return tree[element].parent;
 	}
 }
 
 void DisjointSets::Union(int representativeSetx, int representativeSety)
 {
-	if (forestOfGroups[representativeSetx].parent != representativeSetx || forestOfGroups[representativeSety].parent != representativeSety) // if repx or repxy are not representative of set
+	if (tree[representativeSetx].parent != representativeSetx || tree[representativeSety].parent != representativeSety) // if repx or repxy are not representative of set
 	{
 		cout << "wrong input";
 		exit(1);
 	}
-
-	if (forestOfGroups[representativeSetx].size > forestOfGroups[representativeSety].size)
+	
+	if (tree[representativeSetx].size > tree[representativeSety].size)
 	{
-		forestOfGroups[representativeSety].parent = representativeSetx;
-		forestOfGroups[representativeSetx].size += forestOfGroups[representativeSety].size;
+		tree[representativeSety].parent = representativeSetx;
+		tree[representativeSetx].size += tree[representativeSety].size;
 	}
 	else
 	{
-		forestOfGroups[representativeSetx].parent = representativeSety;
-		forestOfGroups[representativeSety].size += forestOfGroups[representativeSetx].size;
+		tree[representativeSetx].parent = representativeSety;
+		tree[representativeSety].size += tree[representativeSetx].size;
 	}
 }
 
@@ -89,8 +90,8 @@ DisjointSets::~DisjointSets()
 {
 	if (allocated)
 	{
-		delete[] forestOfGroups;
+		delete[] tree;
 	}
 
-	forestOfGroups = nullptr;
+	tree = nullptr;
 }
