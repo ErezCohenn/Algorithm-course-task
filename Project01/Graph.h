@@ -20,14 +20,10 @@ public:
 	void AddEdge(int u, int v, int c);
 	AdjacentList* GetAdjList(int u);
 	void RemoveEdge(int u, int v);
-
+	vector<Edge*> getEdgesArr();
 	int getGraphSize() const { return numberOfVertex; }
 	AdjacentList getAdjList(int index) const { return *(adjListArray[index]); }
 	void printGraph();
-	~WeightedGraph() {
-		for (int i = 0; i < numberOfVertex; i++) {
-			delete[] adjListArray[i];
-		}
-	}
+	~WeightedGraph();
 };
 

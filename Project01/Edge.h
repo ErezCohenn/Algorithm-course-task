@@ -2,6 +2,7 @@
 
 struct Edge
 {
+	bool visted = false;
 	int vertex;
 	int edgeWeight = 0;
 	Edge* prev = nullptr;

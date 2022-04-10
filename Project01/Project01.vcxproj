@@ -150,10 +150,10 @@
     <ClInclude Include="AdjacentList.h" />
     <ClInclude Include="DisjointSets.h" />
     <ClInclude Include="Edge.h" />
-    <ClInclude Include="Element.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="MinHeap.h" />
     <ClInclude Include="MST_algorithms.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="Pair.h" />
     <ClInclude Include="Prim.h" />
     <ClInclude Include="QuickSort.h" />
