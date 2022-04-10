@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
-#include "Element.h"
+#include "Node.h"
 
 using std::vector;
 using std::endl;
@@ -9,7 +9,7 @@ using std::cout;
 
 class DisjointSets
 {
-	Element* tree;
+	Node* forest;
 	int treeSize;
 	int maxSize;
 	bool allocated;
@@ -17,7 +17,7 @@ class DisjointSets
 public:
 	DisjointSets();
 	void CreateEmpty(int max);
-	void MakeSset(int newRepresentative);
+	void MakeSet(int newRepresentative);
 	int Find(int element);
 	void Union(int representativeSetx, int representativeSety);
 	~DisjointSets();
@@ -25,7 +25,7 @@ public:
 	{
 		for (int i = 0; i < treeSize; i++)
 		{
-			cout << "node: " << i << " parent: " << tree[i].parent << " size: " << tree[i].size << endl;
+			cout << "node: " << i << " parent: " << forest[i].parent << " size: " << forest[i].size << endl;
 		}
 		cout << "finished" << endl;
 	}

@@ -3,10 +3,9 @@
 #include<vector>
 #include <iterator>
 #include "AdjacentList.h"
+#include "Edge.h"
 
 using namespace std;
-// Data structure to store adjacency list nodes
-
 
 class WeightedGraph
 {
@@ -25,15 +24,13 @@ public:
 	void AddEdge(int u, int v, int c);
 	AdjacentList* GetAdjList(int u);
 	void RemoveEdge(int u, int v);
+	vector<Edge*> getEdgesArr();
+
 	Edge* getEdge(int u, int v) const;
 	int getGraphSize() const { return numberOfVertex; }
 	AdjacentList getAdjList(int index) const { return *(adjListArray[index]); }
 	void printGraph();
 	// Destructor
-	~Graph() {
-		for (int i = 0; i < numberOfVertex; i++) {
-			delete[] adjListArray[i];
-		}
-	}
+	~WeightedGraph();
 };
 

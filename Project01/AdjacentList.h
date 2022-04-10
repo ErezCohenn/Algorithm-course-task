@@ -1,15 +1,7 @@
-#pragma 
+#pragma once
 #include<iostream>
+#include "Edge.h"
 using namespace std;
-
-struct Edge
-{
-	int vertex;
-	int edgeWeight = 0;
-	Edge* prev = nullptr;
-	Edge* next = nullptr;
-	Edge* twin = nullptr;
-};
 
 class AdjacentList
 {

@@ -1,4 +1,5 @@
 #pragma once
+#include "MST_algorithms.h"
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
@@ -12,9 +13,11 @@ using std::ifstream;
 using std::ofstream;
 using std::getline;
 
-void makeGraphFromFileInput(int argc, char* argv[], WeightedGraph& graph, Edge* edgeToDelete);
+void runMstAlgorithms(int argc, char* argv[]);
+void makeGraphFromFileInput(char inputFile[], WeightedGraph& graph, Edge* edgeToDelete);
 void printErrorInput();
 bool isNumeric(const string& strToCheck);
 int convertStringToNumeric(const string& strToConvert);
+void convertStringToEdge(string& line, int amountOfVertexes, int& srcVertex, int& destVertex, int& weight);
 bool isValidVertex(int vertex, int maxVertex);
 //int getEdgeFromFile(ifstream file)
