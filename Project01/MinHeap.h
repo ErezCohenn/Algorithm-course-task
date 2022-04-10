@@ -1,9 +1,10 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <vector>
 #include "Pair.h"
 
-
+using std::vector;
 using std::string;
 using std::swap;
 using std::cout;
@@ -13,6 +14,7 @@ using std::endl;
 class MinHeap
 {
 	Pair* data;
+	vector<int> indenciesArr;
 	int maxSize;
 	int heapSize;
 	int allocated;
@@ -20,6 +22,8 @@ class MinHeap
 	static int Right(int node) { return (2 * node + 2); };
 	static int Parent(int node) { return ((node - 1) / 2); };
 	void FixHeap(int node);
+
+	
 public:
 	MinHeap();
 	MinHeap(const MinHeap& h) = delete;
@@ -31,6 +35,7 @@ public:
 	Pair DeleteMin();
 	int Insert(Pair& item);
 	int getHeapSize() const { return heapSize; };
+	int getIndex(int value) const { return indenciesArr[value]; }
 	void DecreaseKey(int place, int newKey);
 	bool isEmpty();
 	void Build(int arr[], int size);

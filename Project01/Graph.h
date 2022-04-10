@@ -8,21 +8,26 @@ using namespace std;
 // Data structure to store adjacency list nodes
 
 
-class Graph
+class WeightedGraph
 {
 
 	int numberOfVertex;
 	vector<AdjacentList*> adjListArray;
-	void MakeEmptyGraph(int n);
+	
 public:
-	Graph(int n) :numberOfVertex(n)
+	WeightedGraph(int n = 0)
 	{
 		MakeEmptyGraph(numberOfVertex);
 	}
+
+	void MakeEmptyGraph(int n);
 	bool IsAdjacent(int u, int v);
 	void AddEdge(int u, int v, int c);
 	AdjacentList* GetAdjList(int u);
 	void RemoveEdge(int u, int v);
+	Edge* getEdge(int u, int v) const;
+	int getGraphSize() const { return numberOfVertex; }
+	AdjacentList getAdjList(int index) const { return *(adjListArray[index]); }
 	void printGraph();
 	// Destructor
 	~Graph() {

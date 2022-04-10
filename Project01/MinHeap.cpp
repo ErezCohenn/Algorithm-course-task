@@ -24,11 +24,14 @@ void MinHeap::CreateEmpty(int max)
 	if (data)
 	{
 		delete[] data;
+		indenciesArr.clear();
 	}
 
 	if (max > 0)
 	{
+		data = nullptr;
 		data = new Pair[max];
+		indenciesArr.reserve(max);
 		allocated = 1;
 	}
 
@@ -61,6 +64,7 @@ Pair MinHeap::DeleteMin()
 	Pair min = data[0];
 	heapSize--;
 	data[0] = data[heapSize];
+	indenciesArr[data[0].data - 1] = 0;
 	FixHeap(0);
 
 	return min;
@@ -112,6 +116,7 @@ void MinHeap::FixHeap(int node)
 	if (min != node)
 	{
 		swap(data[node], data[min]);
+		swap(indenciesArr[data[node].data - 1], indenciesArr[data[min].data - 1]);
 		
 		FixHeap(min);
 	}
@@ -131,10 +136,12 @@ void MinHeap::DecreaseKey(int place, int newKey)
 	while ((place > 0) && data[Parent(place)].key > item.key)
 	{
 		data[place] = data[Parent(place)];
+		indenciesArr[data[place].data - 1] = place;
 		place = Parent(place);
 	}
 
 	data[place] = item;
+	indenciesArr[data[place].data - 1] = place;
 }
 
 bool MinHeap::isEmpty()
@@ -162,6 +169,7 @@ void MinHeap::Build(int arr[], int size)
 		node.data = i;
 		node.key = arr[i];
 		data[i] = node;
+		indenciesArr.push_back(i);
 	}
 
 	heapSize = size;
