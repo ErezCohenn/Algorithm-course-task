@@ -166,7 +166,7 @@ void MinHeap::Build(int arr[], int size)
 	{
 		Pair node;
 
-		node.data = i;
+		node.data = i + 1;
 		node.key = arr[i];
 		data[i] = node;
 		indenciesArr.push_back(i);

@@ -2,7 +2,7 @@
 
 DisjointSets::DisjointSets()
 {
-	tree = nullptr;
+	forest = nullptr;
 	maxSize = 0;
 	treeSize = 0;
 	allocated = false;
@@ -10,30 +10,30 @@ DisjointSets::DisjointSets()
 
 void DisjointSets::CreateEmpty(int max)
 {
-	if (tree)
+	if (forest)
 	{
-		delete[] tree;
+		delete[] forest;
 	}
 
 	if (max > 0)
 	{
-		tree = new Element[max];
+		forest = new Node[max];
 		allocated = true;
 		maxSize = max;
 
 		for (int i = 0; i < max; i++)
 		{
-			tree[i].parent = -1;
-			tree[i].size = 0;
+			forest[i].parent = -1;
+			forest[i].size = 0;
 		}
-		
+
 	}
-	
+
 	maxSize = max;
-	treeSize = 0;	
+	treeSize = 0;
 }
 
-void DisjointSets::MakeSset(int newRepresentative)
+void DisjointSets::MakeSet(int newRepresentative)
 {
 	if (newRepresentative >= maxSize)
 	{
@@ -41,8 +41,8 @@ void DisjointSets::MakeSset(int newRepresentative)
 		exit(1);
 	}
 
-	tree[newRepresentative].parent = newRepresentative;
-	tree[newRepresentative].size = 1;
+	forest[newRepresentative].parent = newRepresentative;
+	forest[newRepresentative].size = 1;
 	treeSize++;
 }
 
@@ -53,36 +53,36 @@ int DisjointSets::Find(int element)
 		cout << "wrong input";
 		exit(1);
 	}
-	
-	if (tree[element].parent == element)
+
+	if (forest[element].parent == element)
 	{
 		return element;
 	}
 	else
 	{
-		tree[element].parent = Find(tree[element].parent);
+		forest[element].parent = Find(forest[element].parent);
 
-		return tree[element].parent;
+		return forest[element].parent;
 	}
 }
 
 void DisjointSets::Union(int representativeSetx, int representativeSety)
 {
-	if (tree[representativeSetx].parent != representativeSetx || tree[representativeSety].parent != representativeSety) // if repx or repxy are not representative of set
+	if (forest[representativeSetx].parent != representativeSetx || forest[representativeSety].parent != representativeSety) // if repx or repxy are not representative of set
 	{
 		cout << "wrong input";
 		exit(1);
 	}
-	
-	if (tree[representativeSetx].size > tree[representativeSety].size)
+
+	if (forest[representativeSetx].size > forest[representativeSety].size)
 	{
-		tree[representativeSety].parent = representativeSetx;
-		tree[representativeSetx].size += tree[representativeSety].size;
+		forest[representativeSety].parent = representativeSetx;
+		forest[representativeSetx].size += forest[representativeSety].size;
 	}
 	else
 	{
-		tree[representativeSetx].parent = representativeSety;
-		tree[representativeSety].size += tree[representativeSetx].size;
+		forest[representativeSetx].parent = representativeSety;
+		forest[representativeSety].size += forest[representativeSetx].size;
 	}
 }
 
@@ -90,8 +90,8 @@ DisjointSets::~DisjointSets()
 {
 	if (allocated)
 	{
-		delete[] tree;
+		delete[] forest;
 	}
 
-	tree = nullptr;
+	forest = nullptr;
 }

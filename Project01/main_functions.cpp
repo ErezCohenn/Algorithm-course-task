@@ -1,5 +1,36 @@
 #include "main_functions.h"
 
+void runMstAlgorithms(int argc, char* argv[])
+{
+	WeightedGraph graph;
+	Edge* edteToDelete = nullptr;
+	int resPrim, resKruskal;
+
+	makeGraphFromFileInput(argc, argv, graph, edteToDelete);
+
+	graph.printGraph();
+
+	MST_algorithms test;
+
+	resPrim = test.Prim(graph);
+
+	test.Kruskal(graph);
+
+	ofstream outputMST(argv[2]);
+
+	if (!outputMST.is_open())
+	{
+		printErrorInput();
+	}
+
+	outputMST << "Prim <" << resPrim << ">" << endl;
+
+	outputMST.close();
+	
+
+
+
+}
 
 void makeGraphFromFileInput(int argc, char* argv[], WeightedGraph& graph, Edge* edgeToDelete)
 {
@@ -55,7 +86,7 @@ void makeGraphFromFileInput(int argc, char* argv[], WeightedGraph& graph, Edge* 
 		
 		getline(graphInput, line);
 
-		// check valid vertexV
+		// check valid srcVertex
 		index = line.find(" ");
 		srcVertexStr = line.substr(0, index);
 		line = line.substr(index + srcVertexStr.size());
@@ -72,7 +103,7 @@ void makeGraphFromFileInput(int argc, char* argv[], WeightedGraph& graph, Edge* 
 			printErrorInput();
 		}
 
-		// check valid vertexU
+		// check valid destVertex
 		index = line.find(" ");
 		destVertexStr = line.substr(0, index);
 		line = line.substr(index + destVertexStr.size());
@@ -147,6 +178,8 @@ void makeGraphFromFileInput(int argc, char* argv[], WeightedGraph& graph, Edge* 
 	}
 
 	edgeToDelete = graph.getEdge(srcVertex, destVertex);
+
+	graphInput.close();
 	
 }
 
