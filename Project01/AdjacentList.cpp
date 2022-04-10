@@ -1,27 +1,16 @@
 #include "AdjacentList.h"
 void AdjacentList::makeEmptyList()
 {
-	if (!isEmptyList(*this))
-	{
-		Edge* currEdge = head;
-
-		while (currEdge != nullptr)
-		{
-			Edge* temp = currEdge->next;
-			delete[] currEdge;
-			currEdge = temp;
-		}
-	}
-	
 	head = tail = nullptr;
 	listSize = 0;
 }
+
 
 Edge* AdjacentList::createNewEdge(Edge* next, Edge* prev, int weight, int vertex)
 {
 	Edge* newEdge;
 
-	newEdge = new Edge();
+	newEdge = new(Edge);
 	newEdge->next = next;
 	newEdge->prev = prev;
 	newEdge->edgeWeight = weight;
@@ -49,7 +38,7 @@ Edge* AdjacentList::insertEdgeToTail(int weight, int vertex)
 	return newTail;
 }
 
-bool AdjacentList::isEmptyList(AdjacentList& lst) const
+bool AdjacentList::isEmptyList(AdjacentList lst)
 {
 	return (head == nullptr);
 }

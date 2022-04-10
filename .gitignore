@@ -36,9 +36,8 @@
 
 *.vs
 *.db
-*.VC.db
 *.suo
-*.vcxproj.user
-
+*.vcxproj
+*.Project01.vcxproj
 DEBUG/
 *

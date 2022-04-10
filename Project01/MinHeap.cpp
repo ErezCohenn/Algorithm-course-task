@@ -153,13 +153,13 @@ bool MinHeap::isEmpty()
 
 void MinHeap::Build(int arr[], int size)
 {
-	Pair node;
-
 	CreateEmpty(size);
 
 	for (int i = 0; i < size; i++)
 	{
-		node.data = i + 1;
+		Pair node;
+
+		node.data = i;
 		node.key = arr[i];
 		data[i] = node;
 	}
