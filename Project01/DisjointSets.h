@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
-#include "Element.h"
+#include "ForestOfGroups.h"
 
 using std::vector;
 using std::endl;
@@ -9,7 +9,7 @@ using std::cout;
 
 class DisjointSets
 {
-	Element* tree;
+	Node* Node;
 	int treeSize;
 	int maxSize;
 	bool allocated;
@@ -18,7 +18,9 @@ public:
 	DisjointSets();
 	void CreateEmpty(int max);
 	void MakeSet(int newRepresentative);
-	int Find(int element);
+
+	int Find(int Node);
+
 	void Union(int representativeSetx, int representativeSety);
 	~DisjointSets();
 	void print() //need to be deleted for submission

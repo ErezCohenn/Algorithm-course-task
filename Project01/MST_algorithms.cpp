@@ -1,6 +1,7 @@
 #include "MST_algorithms.h"
 using std::pair;
 
+
 int* MST_algorithms::Prim(WeightedGraph& graph)
 {
     int* parent = new int(graph.getGraphSize());
@@ -13,8 +14,9 @@ int* MST_algorithms::Prim(WeightedGraph& graph)
         return nullptr;
     }
 
-    minWeight[0].first = 0; // vertex 1 is the first vertex to start the algorithm
+  minWeight[0].first = 0; // vertex 1 is the first vertex to start the algorithm
     minWeight[0].second = 0;
+
     parent[0] = -1; // vertex 1 has no parent
 
     for (int i = 1; i < graph.getGraphSize(); i++)
@@ -47,7 +49,7 @@ int* MST_algorithms::Prim(WeightedGraph& graph)
             {
                 minWeight[adjEdge->vertex - 1] = adjEdge->edgeWeight;
                 parent[adjEdge->vertex - 1] = minVertex.data;
-                priority_queue.DecreaseKey(adjEdge->vertex - 1, minWeight[adjEdge->vertex - 1]); // the index of v is need to update: îöáéò äããé?
+                priority_queue.DecreaseKey(adjEdge->vertex - 1, minWeight[adjEdge->vertex - 1]); // the index of v is need to update: Ã®Ã¶Ã¡Ã©Ã² Ã¤Ã£Ã£Ã©?
             }
         }
     }
