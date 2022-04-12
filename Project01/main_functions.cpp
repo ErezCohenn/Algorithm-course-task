@@ -44,7 +44,20 @@ void runMstAlgorithms(int argc, char* argv[])
 
 }
 
-void makeGraphFromFileInput(int argc, char* argv[], WeightedGraph& graph, Edge* edgeToDelete)
+	if (!outputMST.is_open())
+	{
+		printErrorInput();
+	}
+
+	outputMST << "Prim <" << resPrim << ">" << endl;
+
+	outputMST.close();
+	
+
+
+}
+
+void makeGraphFromFileInput(char inputFile[], WeightedGraph& graph, Edge* edgeToDelete)
 {
 	int amountOfVertexes;
 	int amountOfEdges;
@@ -53,12 +66,14 @@ void makeGraphFromFileInput(int argc, char* argv[], WeightedGraph& graph, Edge* 
 	int srcVertex, destVertex, weight;
 	int index;
 
+
 	if (argc != 3)
 	{
 		printErrorInput();
 	}
 
 	ifstream graphInput(argv[1]);
+
 
 	if (!graphInput.is_open())
 	{
@@ -97,6 +112,7 @@ void makeGraphFromFileInput(int argc, char* argv[], WeightedGraph& graph, Edge* 
 		}
 
 		getline(graphInput, line);
+
 
 		// check valid srcVertex
 		index = line.find(" ");
@@ -142,6 +158,7 @@ void makeGraphFromFileInput(int argc, char* argv[], WeightedGraph& graph, Edge* 
 		}
 
 		weight = convertStringToNumeric(weightStr);
+
 
 		if (graph.IsAdjacent(srcVertex, destVertex))
 		{
@@ -217,6 +234,56 @@ bool isNumeric(const string& strToCheck)
 int convertStringToNumeric(const string& strToConvert)
 {
 	return atoi(strToConvert.c_str());
+}
+
+void convertStringToEdge(string& line, int amountOfVertexes, int& srcVertex, int& destVertex, int& weight)
+{
+	string srcVertexStr, destVertexStr, weightStr;
+	int index;
+	
+	index = line.find(" ");
+	srcVertexStr = line.substr(0, index);
+	line = line.substr(index + srcVertexStr.size());
+
+	if (!isNumeric(srcVertexStr))
+	{
+		printErrorInput();
+	}
+
+	srcVertex = convertStringToNumeric(srcVertexStr);
+
+	if (!isValidVertex(srcVertex, amountOfVertexes))
+	{
+		printErrorInput();
+	}
+
+	// check valid destVertex
+	index = line.find(" ");
+	destVertexStr = line.substr(0, index);
+	line = line.substr(index + destVertexStr.size());
+
+	if (!isNumeric(destVertexStr))
+	{
+		printErrorInput();
+	}
+
+	destVertex = convertStringToNumeric(destVertexStr);
+
+	if (!isValidVertex(destVertex, amountOfVertexes))
+	{
+		printErrorInput();
+	}
+
+	// check valid weight and Edge
+	index = line.find("\n");
+	weightStr = line.substr(0, index);
+
+	if (!isNumeric(weightStr))
+	{
+		printErrorInput();
+	}
+
+	weight = convertStringToNumeric(weightStr);
 }
 
 bool isValidVertex(int vertex, int maxVertex)

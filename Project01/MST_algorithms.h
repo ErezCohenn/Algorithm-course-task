@@ -10,6 +10,10 @@ using std::vector;
 
 class MST_algorithms
 {
+private:
+	static void initializePrim(int minWeight[], int parent[], bool vertexInMst[], int size);
+	static int countMSTWeight(int EdgeWeights[], int size);
+
 public:
 	int Prim(const WeightedGraph& graph);
 	void initializePrim(int minWeight[], int parent[], bool vertexInMst[], int size);
@@ -17,6 +21,7 @@ public:
 	int Kruskal(WeightedGraph& graph);
 	void Visit(int u, WeightedGraph& graph, vector<string>& color);
 	bool isGraphLinked(WeightedGraph& graph);
+
 
 };
 

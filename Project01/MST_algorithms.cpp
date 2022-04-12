@@ -151,3 +151,30 @@ bool MST_algorithms::isGraphLinked(WeightedGraph& graph)
 	}
 	return true;
 }
+
+void MST_algorithms::Kruskal(WeightedGraph& graph)
+{
+    int srcRepresentive, destRepresentive;
+    vector<Edge*> forest;
+    DisjointSets UnionFind;
+    vector<Edge*> graphEdgesArray;
+
+    graphEdgesArray = graph.getEdgesArr();
+    QuickSort::quickSort(graphEdgesArray, 0, graphEdgesArray.size() - 1);
+
+    for (int i = 1; i <= graph.getGraphSize(); i++)
+    {
+        UnionFind.MakeSet(i);
+    }
+
+    for (int i = 0; i < graphEdgesArray.size(); i++)
+    {
+        srcRepresentive = UnionFind.Find(graphEdgesArray[i]->vertex); // finds u representive
+        destRepresentive = UnionFind.Find(graphEdgesArray[i]->twin->vertex); // finds v representive
+        if (srcRepresentive != destRepresentive)
+        {
+            forest.push_back(graphEdgesArray[i]);
+            UnionFind.Union(srcRepresentive, destRepresentive);
+        }
+    }
+}

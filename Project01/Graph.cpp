@@ -103,10 +103,12 @@ vector<Edge*> WeightedGraph::getEdgesArr()
 			if (currentEdge->visted == false)
 			{
 				currentEdge->visted = true;
+
 				currentEdge->twin->visted = true;
 				edgesArr.push_back(currentEdge);
 			}
 			currentEdge = currentEdge->next;
+
 		}
 	}
 	return edgesArr;
