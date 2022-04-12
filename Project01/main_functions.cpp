@@ -3,8 +3,10 @@
 void runMstAlgorithms(int argc, char* argv[])
 {
 	WeightedGraph graph;
+
 	Edge* edgeToDelete = nullptr;
-	int resPrim, resKruskal;
+	int resPrim, resKruskal, resKruskalAfterRemoveEdge;
+	bool isGraphLinked;
 
 	if (argc != 3)
 	{
@@ -13,12 +15,18 @@ void runMstAlgorithms(int argc, char* argv[])
 	
 	makeGraphFromFileInput(argv[1], graph, edgeToDelete);
 
-	graph.printGraph();
-
-	
 	resPrim = MST_algorithms::Prim(graph);
+	
+	resKruskal = MST_algorithms::Kruskal(graph);
 
-	//MST_algorithms::Kruskal(graph);
+	graph.removeEdge(edgeToDelete->vertex, edgeToDelete->twin->vertex);
+
+	isGraphLinked = graph.isGraphLinked();
+
+	if (isGraphLinked)
+	{
+		resKruskalAfterRemoveEdge = MST_algorithms::Kruskal(graph);
+	}
 
 	ofstream outputMST(argv[2]);
 
@@ -27,15 +35,24 @@ void runMstAlgorithms(int argc, char* argv[])
 		printErrorInput();
 	}
 
-	outputMST << "Prim <" << resPrim << ">" << endl;
+	cout << "Kruskal " << resKruskal << endl << "Prim " << resPrim << endl;
+	outputMST << "Kruskal " << resKruskal << endl << "Prim " << resPrim << endl;
+	
+	if (isGraphLinked)
+	{
+		cout << "Kruskal2 " << resKruskalAfterRemoveEdge << endl;
+		outputMST << "Kruskal2 " << resKruskalAfterRemoveEdge << endl;
+	}
+	else
+	{
+		cout << "No MST" << endl;
+		outputMST << "No MST" << endl;
+	}
 
 	outputMST.close();
-	
-
-
 }
 
-void makeGraphFromFileInput(char inputFile[], WeightedGraph& graph, Edge* edgeToDelete)
+void makeGraphFromFileInput(const char inputFile[], WeightedGraph& graph, Edge*& edgeToDelete)
 {
 	int amountOfVertexes;
 	int amountOfEdges;
@@ -43,12 +60,12 @@ void makeGraphFromFileInput(char inputFile[], WeightedGraph& graph, Edge* edgeTo
 	string srcVertexStr, destVertexStr, weightStr;
 	int srcVertex, destVertex, weight;
 	int index;
-	
+
 	ifstream graphInput(inputFile);
 
 	if (!graphInput.is_open())
 	{
-		cout << "Failed to open the input file";
+		cout << "Invalid input";
 	}
 
 	getline(graphInput, userInput);
@@ -62,7 +79,7 @@ void makeGraphFromFileInput(char inputFile[], WeightedGraph& graph, Edge* edgeTo
 		amountOfVertexes = convertStringToNumeric(userInput);
 	}
 
-	graph.MakeEmptyGraph(amountOfVertexes);
+	graph.makeEmptyGraph(amountOfVertexes);
 
 	getline(graphInput, userInput);
 
@@ -81,17 +98,17 @@ void makeGraphFromFileInput(char inputFile[], WeightedGraph& graph, Edge* edgeTo
 		{
 			printErrorInput();
 		}
-		
+
 		getline(graphInput, line);
 
 		convertStringToEdge(line, amountOfVertexes, srcVertex, destVertex, weight);
-
-		if (graph.IsAdjacent(srcVertex, destVertex))
+		
+		if (graph.isAdjacent(srcVertex, destVertex))
 		{
 			printErrorInput();
 		}
 
-		graph.AddEdge(srcVertex, destVertex, weight);
+		graph.addEdge(srcVertex, destVertex, weight);
 	}
 
 	if (graphInput.eof())
@@ -127,7 +144,7 @@ void makeGraphFromFileInput(char inputFile[], WeightedGraph& graph, Edge* edgeTo
 		printErrorInput();
 	}
 
-	if (!graph.IsAdjacent(srcVertex, destVertex))
+	if (!graph.isAdjacent(srcVertex, destVertex))
 	{
 		printErrorInput();
 	}
@@ -139,7 +156,7 @@ void makeGraphFromFileInput(char inputFile[], WeightedGraph& graph, Edge* edgeTo
 
 void printErrorInput()
 {
-	cout << "wrong input";
+	cout << "Invalid input";
 	exit(1);
 }
 

@@ -16,7 +16,6 @@ private:
 
 public:
 	static int Prim(const WeightedGraph& graph);
-	static void Kruskal(WeightedGraph& graph);
-
+	static int Kruskal(WeightedGraph& graph);
 };
 

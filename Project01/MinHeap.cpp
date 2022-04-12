@@ -48,7 +48,7 @@ const Pair& MinHeap::Min() const
 
 	else
 	{
-		cout << "wrong input" << endl;
+		cout << "Invalid input" << endl;
 		exit(1);
 	}
 }
@@ -57,7 +57,7 @@ Pair MinHeap::DeleteMin()
 {
 	if (heapSize < 1)
 	{
-		cout << "wrong input" << endl;
+		cout << "Invalid input" << endl;
 		exit(1);
 	}
 
@@ -68,29 +68,6 @@ Pair MinHeap::DeleteMin()
 	FixHeap(0);
 
 	return min;
-}
-
-int MinHeap::Insert(Pair& item)
-{
-	if (heapSize == maxSize)
-	{
-		cout << "wrong input" << endl;
-		exit(1);
-	}
-
-	int i = heapSize;
-	heapSize++;
-
-	while ((i > 0) && data[Parent(i)].key > item.key)
-	{
-		data[i] = data[Parent(i)];
-		i = Parent(i);
-	}
-
-	data[i] = item;
-	return i;
-
-
 }
 
 void MinHeap::FixHeap(int node)
@@ -126,7 +103,7 @@ void MinHeap::DecreaseKey(int place, int newKey)
 {
 	if (place >= heapSize || place < 0) 
 	{
-		cout << "wrong input" << endl;
+		cout << "Invalid input" << endl;
 		exit(1);
 	}
 	
@@ -152,7 +129,8 @@ bool MinHeap::isEmpty()
 	}
 	else if (heapSize < 0)
 	{
-		cout << "wrong input";
+		cout << "Invalid input";
+		exit(1);
 	}
 	else
 		return false;

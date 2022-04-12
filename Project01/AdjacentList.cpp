@@ -5,7 +5,6 @@ void AdjacentList::makeEmptyList()
 	listSize = 0;
 }
 
-
 Edge* AdjacentList::createNewEdge(Edge* next, Edge* prev, int weight, int vertex)
 {
 	Edge* newEdge;
@@ -64,6 +63,22 @@ void AdjacentList::deleteAfter(Edge* toDelete)
 		toDelete->prev->next = toDelete->next;
 		toDelete->next->prev = toDelete->prev;
 	}
+
 	listSize--;
 	delete[] toDelete;
+}
+
+AdjacentList::~AdjacentList()
+{
+	Edge* currentEdge = head;
+	Edge* saverEdge;
+
+	while (currentEdge != nullptr)
+	{
+		saverEdge = currentEdge->next;
+		delete[] currentEdge;
+		currentEdge = saverEdge;
+	}
+
+	tail = head = nullptr;
 }

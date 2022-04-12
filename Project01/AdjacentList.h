@@ -1,7 +1,6 @@
 #pragma once
 #include<iostream>
 #include "Edge.h"
-using namespace std;
 
 class AdjacentList
 {
@@ -17,5 +16,8 @@ public:
 	Edge* insertEdgeToTail(int weight, int vertex);
 	bool isEmptyList(AdjacentList lst);
 	void deleteAfter(Edge* toDelete);
+	AdjacentList(const AdjacentList& h) = delete;
+	AdjacentList& operator=(const AdjacentList& h) = delete;
+	~AdjacentList();
 };
 

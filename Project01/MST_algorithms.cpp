@@ -2,110 +2,118 @@
 
 int MST_algorithms::Prim(const WeightedGraph& graph)
 {
-    int* parent = new int(graph.getGraphSize());
-    int* minWeight = new int(graph.getGraphSize());
-    bool* vertexInMst = new bool(graph.getGraphSize());
-    MinHeap priority_queue;
-        
-    if (graph.getGraphSize() <= 0)
-    {
-        cout << "The graph is empty!";
-        exit(1);
-    }
-    
-    initializePrim(minWeight, parent, vertexInMst, graph.getGraphSize());
-     
-    priority_queue.Build(minWeight, graph.getGraphSize());
+	int* parent = new int(graph.getGraphSize());
+	int* minWeight = new int(graph.getGraphSize());
+	bool* vertexInMst = new bool(graph.getGraphSize());
+	MinHeap priority_queue;
 
-    while (!priority_queue.isEmpty())
-    {
-        Pair minVertex = priority_queue.DeleteMin();
-        vertexInMst[minVertex.data - 1] = true;
+	if (graph.getGraphSize() <= 0)
+	{
+		cout << "Invalid input";
+		exit(1);
+	}
 
-        AdjacentList adjVertex = graph.getAdjList(minVertex.data  - 1);
-        Edge* adjEdge = adjVertex.getHead();
+	initializePrim(minWeight, parent, vertexInMst, graph.getGraphSize());
 
-        while (adjEdge != nullptr)
-        {
-            if (!vertexInMst[adjEdge->vertex - 1] && adjEdge->edgeWeight < minWeight[adjEdge->vertex - 1])
-            {
-                minWeight[adjEdge->vertex - 1] = adjEdge->edgeWeight;
-                parent[adjEdge->vertex - 1] = minVertex.data;
-                priority_queue.DecreaseKey(priority_queue.getIndex(adjEdge->vertex - 1), minWeight[adjEdge->vertex - 1]);
-            }
+	priority_queue.Build(minWeight, graph.getGraphSize());
 
-            adjEdge = adjEdge->next;
-        }
-    }
-    
-    return countMSTWeight(minWeight, graph.getGraphSize());
+	while (!priority_queue.isEmpty())
+	{
+		Pair minVertex = priority_queue.DeleteMin();
+		vertexInMst[minVertex.data - 1] = true;
 
-    
+		AdjacentList* adjVertex = graph.getAdjList(minVertex.data);
+		Edge* adjacentEdge = adjVertex->getHead();
+
+		while (adjacentEdge != nullptr)
+		{
+			if (!vertexInMst[adjacentEdge->vertex - 1] && adjacentEdge->edgeWeight < minWeight[adjacentEdge->vertex - 1])
+			{
+				minWeight[adjacentEdge->vertex - 1] = adjacentEdge->edgeWeight;
+				parent[adjacentEdge->vertex - 1] = minVertex.data;
+				priority_queue.DecreaseKey(priority_queue.getIndex(adjacentEdge->vertex - 1), minWeight[adjacentEdge->vertex - 1]);
+			}
+
+			adjacentEdge = adjacentEdge->next;
+		}
+	}
+
+	return countMSTWeight(minWeight, graph.getGraphSize());
+
+
 }
 
 void MST_algorithms::initializePrim(int minWeight[], int parent[], bool vertexInMst[], int size)
 {
-    int straterVertex = rand() % size; // the first vertex to start the algorithm (V0)
-    
-    for (int i = 0; i < size; i++)
-    {
-        if (i == straterVertex)
-        {
-            minWeight[straterVertex] = 0;
-        }
-        else // minWeight initialize to infinity
-        {
-            minWeight[i] = INT32_MAX;
-        } 
+	int straterVertex = rand() % size; // the first vertex to start the algorithm (V0)
 
-        parent[i] = -1; // if parent[i] == -1 then i has no parent (nil)
-        vertexInMst[i] = false;
-    }
+	for (int i = 0; i < size; i++)
+	{
+		if (i == straterVertex)
+		{
+			minWeight[straterVertex] = 0;
+		}
+		else // minWeight initialize to infinity
+		{
+			minWeight[i] = INT32_MAX;
+		}
+
+		parent[i] = -1; // if parent[i] == -1 then i has no parent (nil)
+		vertexInMst[i] = false;
+	}
 }
 
 int MST_algorithms::countMSTWeight(int EdgeWeights[], int size)
 {
-    int totalWeight;
-    
-    if (size < 1)
-    {
-        cout << "wrong input";
-        exit(1);
-    }
+	int totalWeight;
 
-    totalWeight = EdgeWeights[0];
+	if (size < 1)
+	{
+		cout << "wrong input";
+		exit(1);
+	}
 
-    for (int i = 1; i < size; i++)
-    {
-        totalWeight += EdgeWeights[i];
-    }
+	totalWeight = EdgeWeights[0];
 
-    return totalWeight;
+	for (int i = 1; i < size; i++)
+	{
+		totalWeight += EdgeWeights[i];
+	}
+
+	return totalWeight;
 }
 
-void MST_algorithms::Kruskal(WeightedGraph& graph)
+int MST_algorithms::Kruskal(WeightedGraph& graph)
 {
-    int srcRepresentive, destRepresentive;
-    vector<Edge*> forest;
-    DisjointSets UnionFind;
-    vector<Edge*> graphEdgesArray;
+	int srcRepresentive, destRepresentive;
+	vector<Edge*> forest;
+	DisjointSets UnionFind;
+	vector<Edge*> graphEdgesArray;
+	int weight = 0;
 
-    graphEdgesArray = graph.getEdgesArr();
-    QuickSort::quickSort(graphEdgesArray, 0, graphEdgesArray.size() - 1);
+	UnionFind.CreateEmpty(graph.getGraphSize());
+	graphEdgesArray = graph.getEdgesArr();
+	QuickSort::quickSort(graphEdgesArray, 0, graphEdgesArray.size() - 1);
 
-    for (int i = 1; i <= graph.getGraphSize(); i++)
-    {
-        UnionFind.MakeSet(i);
-    }
+	for (int i = 0; i < graph.getGraphSize(); i++)
+	{
+		UnionFind.MakeSet(i);
+	}
 
-    for (int i = 0; i < graphEdgesArray.size(); i++)
-    {
-        srcRepresentive = UnionFind.Find(graphEdgesArray[i]->vertex); // finds u representive
-        destRepresentive = UnionFind.Find(graphEdgesArray[i]->twin->vertex); // finds v representive
-        if (srcRepresentive != destRepresentive)
-        {
-            forest.push_back(graphEdgesArray[i]);
-            UnionFind.Union(srcRepresentive, destRepresentive);
-        }
-    }
+	for (int i = 0; i < graphEdgesArray.size(); i++)
+	{
+		srcRepresentive = UnionFind.Find(graphEdgesArray[i]->vertex - 1); // finds u representive
+		destRepresentive = UnionFind.Find(graphEdgesArray[i]->twin->vertex - 1); // finds v representive
+		if (srcRepresentive != destRepresentive)
+		{
+			forest.push_back(graphEdgesArray[i]);
+			UnionFind.Union(srcRepresentive, destRepresentive);
+		}
+	}
+	for (int i = 0; i < forest.size(); i++)
+	{
+		weight += forest[i]->edgeWeight;
+	}
+
+	return weight;
 }

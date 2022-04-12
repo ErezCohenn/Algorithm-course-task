@@ -2,22 +2,17 @@
 
 DisjointSets::DisjointSets()
 {
-	forest = nullptr;
 	maxSize = 0;
-	treeSize = 0;
 	allocated = false;
 }
 
 void DisjointSets::CreateEmpty(int max)
 {
-	if (forest)
-	{
-		delete[] forest;
-	}
-
+	forest.clear();
+	
 	if (max > 0)
 	{
-		forest = new Node[max];
+		forest.resize(max);
 		allocated = true;
 		maxSize = max;
 
@@ -26,31 +21,28 @@ void DisjointSets::CreateEmpty(int max)
 			forest[i].parent = -1;
 			forest[i].size = 0;
 		}
-
 	}
 
 	maxSize = max;
-	treeSize = 0;
 }
 
 void DisjointSets::MakeSet(int newRepresentative)
 {
-	if (newRepresentative >= maxSize)
+	if (newRepresentative > maxSize)
 	{
-		cout << "wrong input" << endl;
+		cout << "Invalid input" << endl;
 		exit(1);
 	}
 
 	forest[newRepresentative].parent = newRepresentative;
 	forest[newRepresentative].size = 1;
-	treeSize++;
 }
 
 int DisjointSets::Find(int element)
 {
-	if (element >= treeSize)
+	if (element > forest.size())
 	{
-		cout << "wrong input";
+		cout << "Invalid input";
 		exit(1);
 	}
 
@@ -70,7 +62,7 @@ void DisjointSets::Union(int representativeSetx, int representativeSety)
 {
 	if (forest[representativeSetx].parent != representativeSetx || forest[representativeSety].parent != representativeSety) // if repx or repxy are not representative of set
 	{
-		cout << "wrong input";
+		cout << "Invalid input";
 		exit(1);
 	}
 
@@ -84,14 +76,4 @@ void DisjointSets::Union(int representativeSetx, int representativeSety)
 		forest[representativeSetx].parent = representativeSety;
 		forest[representativeSety].size += forest[representativeSetx].size;
 	}
-}
-
-DisjointSets::~DisjointSets()
-{
-	if (allocated)
-	{
-		delete[] forest;
-	}
-
-	forest = nullptr;
 }

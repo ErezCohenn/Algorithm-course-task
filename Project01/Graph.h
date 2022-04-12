@@ -1,36 +1,34 @@
 #pragma once
-#include <iostream>
 #include<vector>
 #include <iterator>
 #include "AdjacentList.h"
 #include "Edge.h"
 
-using namespace std;
+using std::vector;
+using std::cout;
 
 class WeightedGraph
 {
-
+public:
+	enum Colors { WHITE, GRAY, BLACK };
 	int numberOfVertex;
 	vector<AdjacentList*> adjListArray;
-	
+
 public:
-	WeightedGraph(int n = 0)
+	WeightedGraph(int amountOfVertexes = 0)
 	{
-		MakeEmptyGraph(numberOfVertex);
+		makeEmptyGraph(amountOfVertexes);
 	}
-
-	void MakeEmptyGraph(int n);
-	bool IsAdjacent(int u, int v);
-	void AddEdge(int u, int v, int c);
-	AdjacentList* GetAdjList(int u);
-	void RemoveEdge(int u, int v);
+	void makeEmptyGraph(int n);
+	bool isAdjacent(int u, int v);
+	void addEdge(int u, int v, int c);
+	AdjacentList* getAdjList(int u) const;
+	void removeEdge(int u, int v);
 	vector<Edge*> getEdgesArr();
-
 	Edge* getEdge(int u, int v) const;
 	int getGraphSize() const { return numberOfVertex; }
-	AdjacentList getAdjList(int index) const { return *(adjListArray[index]); }
-	void printGraph();
-	// Destructor
+	void visit(int u, vector<Colors>& color) const;
+	bool isGraphLinked() const;
 	~WeightedGraph();
 };
 

@@ -1,14 +1,14 @@
 #include "Graph.h"
 #include <stdlib.h>
 
-bool WeightedGraph::IsAdjacent(int u, int v)
+bool WeightedGraph::isAdjacent(int u, int v)
 {
 	if (u > numberOfVertex || v > numberOfVertex || u <= 0 || v <= 0)
 	{
-		cout << "invalid input";
+		cout << "Invalid input";
 		exit(1);
 	}
-	
+
 	Edge* currentEdge = adjListArray[u - 1]->getHead();
 
 	while (currentEdge != nullptr)
@@ -22,15 +22,15 @@ bool WeightedGraph::IsAdjacent(int u, int v)
 	return false;
 }
 
-void WeightedGraph::AddEdge(int u, int v, int c)
+void WeightedGraph::addEdge(int u, int v, int c)
 {
 	if (u > numberOfVertex || v > numberOfVertex || u <= 0 || v <= 0)
 	{
-		cout << "invalid input";
+		cout << "Invalid input";
 		exit(1);
 	}
-	
-	if (!IsAdjacent(u, v))
+
+	if (!isAdjacent(u, v))
 	{
 		Edge* firstTwin = adjListArray[u - 1]->insertEdgeToTail(c, v);
 		Edge* secondTwin = adjListArray[v - 1]->insertEdgeToTail(c, u);
@@ -39,21 +39,21 @@ void WeightedGraph::AddEdge(int u, int v, int c)
 	}
 }
 
-AdjacentList* WeightedGraph::GetAdjList(int u)
+ AdjacentList* WeightedGraph::getAdjList(int u) const
 {
 	if (u > numberOfVertex || u <= 0)
 	{
-		cout << "invalid input";
+		cout << "Invalid input";
 		exit(1);
 	}
 	return adjListArray[u - 1];
 }
 
-void WeightedGraph::RemoveEdge(int u, int v)
+void WeightedGraph::removeEdge(int u, int v)
 {
 	if (u > numberOfVertex || v > numberOfVertex || u <= 0 || v <= 0)
 	{
-		cout << "invalid input";
+		cout << "Invalid input";
 		exit(1);
 	}
 
@@ -95,6 +95,7 @@ vector<Edge*> WeightedGraph::getEdgesArr()
 {
 	Edge* currentEdge;
 	vector<Edge*> edgesArr;
+
 	for (int i = 0; i < numberOfVertex; i++)
 	{
 		currentEdge = adjListArray[i]->getHead();
@@ -103,30 +104,27 @@ vector<Edge*> WeightedGraph::getEdgesArr()
 			if (currentEdge->visted == false)
 			{
 				currentEdge->visted = true;
+				currentEdge->twin->visted = true;
 				edgesArr.push_back(currentEdge);
-				currentEdge = currentEdge->next;
 			}
+
+			currentEdge = currentEdge->next;
+		}
+	}
+
+	for (int i = 0; i < numberOfVertex; i++)
+	{
+		currentEdge = adjListArray[i]->getHead();
+		while (currentEdge != nullptr)
+		{
+			currentEdge->visted = false;
+			currentEdge = currentEdge->next;
 		}
 	}
 	return edgesArr;
 }
 
-void WeightedGraph::printGraph()
-{
-	for (int i = 0; i < numberOfVertex; i++)
-	{
-		Edge* currentEdgeInAdjList = adjListArray[i]->getHead();
-		cout << "Vertex " << i + 1 << " neighbors: " << endl;
-		while (currentEdgeInAdjList != nullptr)
-		{
-
-			cout << currentEdgeInAdjList->vertex << ", weight of edge: " << currentEdgeInAdjList->edgeWeight << endl;
-			currentEdgeInAdjList = currentEdgeInAdjList->next;
-		}
-	}
-}
-
-void WeightedGraph::MakeEmptyGraph(int n)
+void WeightedGraph::makeEmptyGraph(int n)
 {
 	adjListArray.clear();
 
@@ -142,6 +140,39 @@ WeightedGraph::~WeightedGraph()
 {
 	for (int i = 0; i < numberOfVertex; i++)
 	{
-		delete[] adjListArray[i];
+		delete adjListArray[i];
 	}
+}
+
+void WeightedGraph::visit(int u, vector<Colors>& color) const
+{
+	Edge* root = adjListArray[u]->getHead();
+	color[u] = GRAY;
+	while (root != nullptr)
+	{
+		if ((root != nullptr) && color[root->vertex - 1] == WHITE)
+		{
+			visit(root->vertex - 1, color);
+		}
+		root = root->next;
+	}
+	color[u] = BLACK;
+}
+
+bool WeightedGraph::isGraphLinked() const
+{
+	vector<Colors> color;
+	for (int i = 0; i < numberOfVertex; i++)
+	{
+		color.push_back(WHITE);
+	}
+
+	visit(0, color);
+
+	for (int i = 0; i < numberOfVertex; i++)
+	{
+		if (color[i] != BLACK)
+			return false;
+	}
+	return true;
 }
