@@ -35,7 +35,7 @@ void DisjointSets::CreateEmpty(int max)
 
 void DisjointSets::MakeSet(int newRepresentative)
 {
-	if (newRepresentative >= maxSize)
+	if (newRepresentative > maxSize)
 	{
 		cout << "wrong input" << endl;
 		exit(1);
@@ -48,7 +48,7 @@ void DisjointSets::MakeSet(int newRepresentative)
 
 int DisjointSets::Find(int element)
 {
-	if (element >= treeSize)
+	if (element > treeSize)
 	{
 		cout << "wrong input";
 		exit(1);
@@ -90,7 +90,7 @@ DisjointSets::~DisjointSets()
 {
 	if (allocated)
 	{
-		delete[] forest;
+		//delete[] forest;
 	}
 
 	forest = nullptr;

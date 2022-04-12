@@ -3,8 +3,10 @@
 void runMstAlgorithms(int argc, char* argv[])
 {
 	WeightedGraph graph;
+
 	Edge* edteToDelete = nullptr;
 	int resPrim, resKruskal;
+	bool isGraphLinked;
 
 	makeGraphFromFileInput(argc, argv, graph, edteToDelete);
 
@@ -12,9 +14,19 @@ void runMstAlgorithms(int argc, char* argv[])
 
 	MST_algorithms test;
 
-	resPrim = test.Prim(graph);
+	isGraphLinked = test.isGraphLinked(graph);
+	resKruskal = test.Kruskal(graph);
+	makeGraphFromFileInput(argc, argv, graph, edteToDelete);
+	//resPrim = test.Prim(graph);
+	//graph.RemoveEdge(edteToDelete->vertex, edteToDelete->twin->vertex);
+	isGraphLinked = test.isGraphLinked(graph);
+	if (isGraphLinked)
+		resKruskal = test.Kruskal(graph);
 
-	test.Kruskal(graph);
+
+
+
+
 
 	ofstream outputMST(argv[2]);
 
@@ -23,10 +35,10 @@ void runMstAlgorithms(int argc, char* argv[])
 		printErrorInput();
 	}
 
-	outputMST << "Prim <" << resPrim << ">" << endl;
+	//outputMST << "Prim <" << resPrim << ">" << endl;
 
 	outputMST.close();
-	
+
 
 
 
@@ -40,7 +52,7 @@ void makeGraphFromFileInput(int argc, char* argv[], WeightedGraph& graph, Edge* 
 	string srcVertexStr, destVertexStr, weightStr;
 	int srcVertex, destVertex, weight;
 	int index;
-	
+
 	if (argc != 3)
 	{
 		printErrorInput();
@@ -83,7 +95,7 @@ void makeGraphFromFileInput(int argc, char* argv[], WeightedGraph& graph, Edge* 
 		{
 			printErrorInput();
 		}
-		
+
 		getline(graphInput, line);
 
 		// check valid srcVertex
@@ -180,7 +192,7 @@ void makeGraphFromFileInput(int argc, char* argv[], WeightedGraph& graph, Edge* 
 	edgeToDelete = graph.getEdge(srcVertex, destVertex);
 
 	graphInput.close();
-	
+
 }
 
 void printErrorInput()

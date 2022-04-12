@@ -8,7 +8,7 @@ bool WeightedGraph::IsAdjacent(int u, int v)
 		cout << "invalid input";
 		exit(1);
 	}
-	
+
 	Edge* currentEdge = adjListArray[u - 1]->getHead();
 
 	while (currentEdge != nullptr)
@@ -29,7 +29,7 @@ void WeightedGraph::AddEdge(int u, int v, int c)
 		cout << "invalid input";
 		exit(1);
 	}
-	
+
 	if (!IsAdjacent(u, v))
 	{
 		Edge* firstTwin = adjListArray[u - 1]->insertEdgeToTail(c, v);
@@ -103,9 +103,10 @@ vector<Edge*> WeightedGraph::getEdgesArr()
 			if (currentEdge->visted == false)
 			{
 				currentEdge->visted = true;
+				currentEdge->twin->visted = true;
 				edgesArr.push_back(currentEdge);
-				currentEdge = currentEdge->next;
 			}
+			currentEdge = currentEdge->next;
 		}
 	}
 	return edgesArr;
