@@ -31,8 +31,12 @@ private:
 		{
 			if (arr[pos]->edgeWeight < pivotValue)
 			{
+				//swap(*arr[pivotPosition + 1], *arr[pos]);
+				//swap(*arr[pivotPosition], *arr[pivotPosition + 1]);
+
 				swap(arr[pivotPosition + 1], arr[pos]);
 				swap(arr[pivotPosition], arr[pivotPosition + 1]);
+
 
 				pivotPosition++;
 			}

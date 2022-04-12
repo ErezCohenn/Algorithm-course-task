@@ -3,24 +3,46 @@
 void runMstAlgorithms(int argc, char* argv[])
 {
 	WeightedGraph graph;
-	Edge* edgeToDelete = nullptr;
-	int resPrim, resKruskal;
 
-	if (argc != 3)
-	{
-		printErrorInput();
-	}
-	
-	makeGraphFromFileInput(argv[1], graph, edgeToDelete);
+	Edge* edteToDelete = nullptr;
+	int resPrim, resKruskal;
+	bool isGraphLinked;
+
+	makeGraphFromFileInput(argc, argv, graph, edteToDelete);
 
 	graph.printGraph();
 
-	
-	resPrim = MST_algorithms::Prim(graph);
+	MST_algorithms test;
 
-	//MST_algorithms::Kruskal(graph);
+	isGraphLinked = test.isGraphLinked(graph);
+	resKruskal = test.Kruskal(graph);
+	makeGraphFromFileInput(argc, argv, graph, edteToDelete);
+	//resPrim = test.Prim(graph);
+	//graph.RemoveEdge(edteToDelete->vertex, edteToDelete->twin->vertex);
+	isGraphLinked = test.isGraphLinked(graph);
+	if (isGraphLinked)
+		resKruskal = test.Kruskal(graph);
+
+
+
+
+
 
 	ofstream outputMST(argv[2]);
+
+	if (!outputMST.is_open())
+	{
+		printErrorInput();
+	}
+
+	//outputMST << "Prim <" << resPrim << ">" << endl;
+
+	outputMST.close();
+
+
+
+
+}
 
 	if (!outputMST.is_open())
 	{
@@ -43,8 +65,15 @@ void makeGraphFromFileInput(char inputFile[], WeightedGraph& graph, Edge* edgeTo
 	string srcVertexStr, destVertexStr, weightStr;
 	int srcVertex, destVertex, weight;
 	int index;
-	
-	ifstream graphInput(inputFile);
+
+
+	if (argc != 3)
+	{
+		printErrorInput();
+	}
+
+	ifstream graphInput(argv[1]);
+
 
 	if (!graphInput.is_open())
 	{
@@ -81,10 +110,55 @@ void makeGraphFromFileInput(char inputFile[], WeightedGraph& graph, Edge* edgeTo
 		{
 			printErrorInput();
 		}
-		
+
 		getline(graphInput, line);
 
-		convertStringToEdge(line, amountOfVertexes, srcVertex, destVertex, weight);
+
+		// check valid srcVertex
+		index = line.find(" ");
+		srcVertexStr = line.substr(0, index);
+		line = line.substr(index + srcVertexStr.size());
+
+		if (!isNumeric(srcVertexStr))
+		{
+			printErrorInput();
+		}
+
+		srcVertex = convertStringToNumeric(srcVertexStr);
+
+		if (!isValidVertex(srcVertex, amountOfVertexes))
+		{
+			printErrorInput();
+		}
+
+		// check valid destVertex
+		index = line.find(" ");
+		destVertexStr = line.substr(0, index);
+		line = line.substr(index + destVertexStr.size());
+
+		if (!isNumeric(destVertexStr))
+		{
+			printErrorInput();
+		}
+
+		destVertex = convertStringToNumeric(destVertexStr);
+
+		if (!isValidVertex(destVertex, amountOfVertexes))
+		{
+			printErrorInput();
+		}
+
+		// check valid weight and Edge
+		index = line.find("\n");
+		weightStr = line.substr(0, index);
+
+		if (!isNumeric(weightStr))
+		{
+			printErrorInput();
+		}
+
+		weight = convertStringToNumeric(weightStr);
+
 
 		if (graph.IsAdjacent(srcVertex, destVertex))
 		{
@@ -135,7 +209,7 @@ void makeGraphFromFileInput(char inputFile[], WeightedGraph& graph, Edge* edgeTo
 	edgeToDelete = graph.getEdge(srcVertex, destVertex);
 
 	graphInput.close();
-	
+
 }
 
 void printErrorInput()

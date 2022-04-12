@@ -12,7 +12,7 @@ class WeightedGraph
 
 	int numberOfVertex;
 	vector<AdjacentList*> adjListArray;
-	
+
 public:
 	WeightedGraph(int n = 0)
 	{

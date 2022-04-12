@@ -15,8 +15,13 @@ private:
 	static int countMSTWeight(int EdgeWeights[], int size);
 
 public:
-	static int Prim(const WeightedGraph& graph);
-	static void Kruskal(WeightedGraph& graph);
+	int Prim(const WeightedGraph& graph);
+	void initializePrim(int minWeight[], int parent[], bool vertexInMst[], int size);
+	int countMSTWeight(int EdgeWeights[], int size);
+	int Kruskal(WeightedGraph& graph);
+	void Visit(int u, WeightedGraph& graph, vector<string>& color);
+	bool isGraphLinked(WeightedGraph& graph);
+
 
 };
 
