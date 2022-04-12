@@ -12,14 +12,18 @@ void DisjointSets::CreateEmpty(int max)
 	
 	if (max > 0)
 	{
-		forest.resize(max);
+		forest.reserve(max);
 		allocated = true;
 		maxSize = max;
 
 		for (int i = 0; i < max; i++)
 		{
-			forest[i].parent = -1;
-			forest[i].size = 0;
+			Node temp;
+
+			temp.parent = -1;
+			temp.size = 0;
+			
+			forest.push_back(temp);
 		}
 	}
 

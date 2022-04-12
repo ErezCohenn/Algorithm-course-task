@@ -5,8 +5,8 @@
 class AdjacentList
 {
 	int listSize;
-	Edge* head;
-	Edge* tail;
+	Edge* head = nullptr;
+	Edge* tail = nullptr;
 public:
 	Edge* getHead() const { return head; }
 	Edge* getTail() const { return tail; }

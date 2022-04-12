@@ -183,6 +183,7 @@ void convertStringToEdge(string& line, int amountOfVertexes, int& srcVertex, int
 	string srcVertexStr, destVertexStr, weightStr;
 	int index;
 	
+	// check valid srcVertex
 	index = line.find(" ");
 	srcVertexStr = line.substr(0, index);
 	line = line.substr(index + srcVertexStr.size());

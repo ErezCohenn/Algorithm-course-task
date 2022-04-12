@@ -3,45 +3,29 @@
 
 MinHeap::MinHeap()
 {
-	data = nullptr;
 	maxSize = 0;
-	heapSize = 0;
 	allocated = 0;
-}
-
-MinHeap::~MinHeap()
-{
-	if (allocated)
-	{
-		delete[] data;
-	}
-
-	data = nullptr;
 }
 
 void MinHeap::CreateEmpty(int max)
 {
-	if (data)
-	{
-		delete[] data;
-		indenciesArr.clear();
-	}
-
+	data.clear();
+	indenciesArr.clear();
+	
 	if (max > 0)
 	{
-		data = nullptr;
-		data = new Pair[max];
+		
+		data.reserve(max);
 		indenciesArr.reserve(max);
 		allocated = 1;
 	}
 
 	maxSize = max;
-	heapSize = 0;
 }
 
 const Pair& MinHeap::Min() const
 {
-	if (heapSize > 0)
+	if (data.size() > 0)
 	{
 		return data[0];
 	}
@@ -55,16 +39,16 @@ const Pair& MinHeap::Min() const
 
 Pair MinHeap::DeleteMin()
 {
-	if (heapSize < 1)
+	if (data.size() < 1)
 	{
 		cout << "Invalid input" << endl;
 		exit(1);
 	}
 
 	Pair min = data[0];
-	heapSize--;
-	data[0] = data[heapSize];
+	data[0] = data[data.size() - 1];
 	indenciesArr[data[0].data - 1] = 0;
+	data.resize(data.size() - 1);
 	FixHeap(0);
 
 	return min;
@@ -76,7 +60,7 @@ void MinHeap::FixHeap(int node)
 	int left = Left(node);
 	int right = Right(node);
 
-	if ((left < heapSize) && (data[left].key < data[node].key))
+	if ((left < data.size()) && (data[left].key < data[node].key))
 	{
 		min = left;
 	}
@@ -85,7 +69,7 @@ void MinHeap::FixHeap(int node)
 		min = node;
 	}
 
-	if ((right < heapSize) && (data[right].key < data[min].key))
+	if ((right < data.size()) && (data[right].key < data[min].key))
 	{
 		min = right;
 	}
@@ -101,7 +85,7 @@ void MinHeap::FixHeap(int node)
 
 void MinHeap::DecreaseKey(int place, int newKey)
 {
-	if (place >= heapSize || place < 0) 
+	if (place >= data.size() || place < 0)
 	{
 		cout << "Invalid input" << endl;
 		exit(1);
@@ -123,11 +107,11 @@ void MinHeap::DecreaseKey(int place, int newKey)
 
 bool MinHeap::isEmpty()
 {
-	if (heapSize == 0)
+	if (data.size() == 0)
 	{
 		return true;
 	}
-	else if (heapSize < 0)
+	else if (data.size() < 0)
 	{
 		cout << "Invalid input";
 		exit(1);
@@ -146,11 +130,9 @@ void MinHeap::Build(int arr[], int size)
 
 		node.data = i + 1;
 		node.key = arr[i];
-		data[i] = node;
+		data.push_back(node);
 		indenciesArr.push_back(i);
 	}
-
-	heapSize = size;
 
 	for (int i = size / 2 - 1; i >= 0; i--)
 	{

@@ -91,7 +91,7 @@ Edge* WeightedGraph::getEdge(int u, int v) const
 	return nullptr;
 }
 
-vector<Edge*> WeightedGraph::getEdgesArr()
+vector<Edge*> WeightedGraph::getEdgesArr() const
 {
 	Edge* currentEdge;
 	vector<Edge*> edgesArr;
@@ -130,7 +130,7 @@ void WeightedGraph::makeEmptyGraph(int n)
 
 	for (int i = 0; i < n; i++)
 	{
-		adjListArray.push_back(new AdjacentList);
+		adjListArray.push_back(new AdjacentList());
 	}
 
 	numberOfVertex = n;
@@ -141,6 +141,7 @@ WeightedGraph::~WeightedGraph()
 	for (int i = 0; i < numberOfVertex; i++)
 	{
 		delete adjListArray[i];
+		adjListArray[i] = nullptr;
 	}
 }
 

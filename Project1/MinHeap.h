@@ -13,10 +13,9 @@ using std::endl;
 
 class MinHeap
 {
-	Pair* data;
+	vector<Pair> data;
 	vector<int> indenciesArr;
 	int maxSize;
-	int heapSize;
 	int allocated;
 	static int Left(int node) { return(2 * node + 1); };
 	static int Right(int node) { return (2 * node + 2); };
@@ -25,14 +24,10 @@ class MinHeap
 	
 public:
 	MinHeap();
-	MinHeap(const MinHeap& h) = delete;
-	MinHeap& operator=(const MinHeap& h) = delete;
-	~MinHeap();
-
 	void CreateEmpty(int max);
 	const Pair& Min() const;
 	Pair DeleteMin();
-	int getHeapSize() const { return heapSize; };
+	int getHeapSize() const { return data.size(); };
 	int getIndex(int value) const { return indenciesArr[value]; }
 	void DecreaseKey(int place, int newKey);
 	bool isEmpty();

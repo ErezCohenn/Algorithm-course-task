@@ -2,9 +2,12 @@
 
 int MST_algorithms::Prim(const WeightedGraph& graph)
 {
-	int* parent = new int(graph.getGraphSize());
-	int* minWeight = new int(graph.getGraphSize());
-	bool* vertexInMst = new bool(graph.getGraphSize());
+
+	int* parent = new int[graph.getGraphSize()];
+	int* minWeight = new int[graph.getGraphSize()];
+	bool* vertexInMst = new bool[graph.getGraphSize()];
+	int totalWeight;
+	
 	MinHeap priority_queue;
 
 	if (graph.getGraphSize() <= 0)
@@ -38,7 +41,17 @@ int MST_algorithms::Prim(const WeightedGraph& graph)
 		}
 	}
 
-	return countMSTWeight(minWeight, graph.getGraphSize());
+	totalWeight = countMSTWeight(minWeight, graph.getGraphSize());
+
+	delete[] parent;
+	delete[] minWeight;
+	delete[] vertexInMst;
+
+	parent = nullptr;
+	minWeight = nullptr;
+	vertexInMst = nullptr;
+
+	return totalWeight;
 
 
 }
@@ -83,7 +96,7 @@ int MST_algorithms::countMSTWeight(int EdgeWeights[], int size)
 	return totalWeight;
 }
 
-int MST_algorithms::Kruskal(WeightedGraph& graph)
+int MST_algorithms::Kruskal(const WeightedGraph& graph)
 {
 	int srcRepresentive, destRepresentive;
 	vector<Edge*> forest;
