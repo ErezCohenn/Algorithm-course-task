@@ -12,11 +12,11 @@ void runMstAlgorithms(int argc, char* argv[])
 	{
 		printErrorInput();
 	}
-	
+
 	makeGraphFromFileInput(argv[1], graph, edgeToDelete);
 
 	resPrim = MST_algorithms::Prim(graph);
-	
+
 	resKruskal = MST_algorithms::Kruskal(graph);
 
 	graph.removeEdge(edgeToDelete->vertex, edgeToDelete->twin->vertex);
@@ -37,7 +37,7 @@ void runMstAlgorithms(int argc, char* argv[])
 
 	cout << "Kruskal " << resKruskal << endl << "Prim " << resPrim << endl;
 	outputMST << "Kruskal " << resKruskal << endl << "Prim " << resPrim << endl;
-	
+
 	if (isGraphLinked)
 	{
 		cout << "Kruskal2 " << resKruskalAfterRemoveEdge << endl;
@@ -102,7 +102,7 @@ void makeGraphFromFileInput(const char inputFile[], WeightedGraph& graph, Edge*&
 		getline(graphInput, line);
 
 		convertStringToEdge(line, amountOfVertexes, srcVertex, destVertex, weight);
-		
+
 		if (graph.isAdjacent(srcVertex, destVertex))
 		{
 			printErrorInput();
@@ -120,7 +120,7 @@ void makeGraphFromFileInput(const char inputFile[], WeightedGraph& graph, Edge*&
 
 	index = line.find(" ");
 	srcVertexStr = line.substr(0, index);
-	line = line.substr(index + srcVertexStr.size());
+	line = line.substr(index + 1);
 
 	if (!isNumeric(srcVertexStr))
 	{
@@ -162,7 +162,15 @@ void printErrorInput()
 
 bool isNumeric(const string& strToCheck)
 {
-	for (int i = 0; i < strToCheck.size(); i++)
+	if (strToCheck.size() > 0 && strToCheck[0] != '-' && (strToCheck[0] < '0' || strToCheck[0] > '9'))
+	{
+		return false;
+	}
+	if ((strToCheck.size() < 2 && strToCheck[0] == '-') || (strToCheck.size() < 1))
+	{
+		return false;
+	}
+	for (int i = 1; i < strToCheck.size(); i++)
 	{
 		if (strToCheck[i] < '0' || strToCheck[i] > '9')
 		{
@@ -182,11 +190,11 @@ void convertStringToEdge(string& line, int amountOfVertexes, int& srcVertex, int
 {
 	string srcVertexStr, destVertexStr, weightStr;
 	int index;
-	
+
 	// check valid srcVertex
 	index = line.find(" ");
 	srcVertexStr = line.substr(0, index);
-	line = line.substr(index + srcVertexStr.size());
+	line = line.substr(index + 1);
 
 	if (!isNumeric(srcVertexStr))
 	{
@@ -203,7 +211,7 @@ void convertStringToEdge(string& line, int amountOfVertexes, int& srcVertex, int
 	// check valid destVertex
 	index = line.find(" ");
 	destVertexStr = line.substr(0, index);
-	line = line.substr(index + destVertexStr.size());
+	line = line.substr(index + 1);
 
 	if (!isNumeric(destVertexStr))
 	{
