@@ -7,7 +7,7 @@ int MST_algorithms::Prim(const WeightedGraph& graph)
 	int* minWeight = new int[graph.getGraphSize()];
 	bool* vertexInMst = new bool[graph.getGraphSize()];
 	int totalWeight;
-	
+
 	MinHeap priority_queue;
 
 	if (graph.getGraphSize() <= 0)
@@ -96,17 +96,15 @@ int MST_algorithms::countMSTWeight(int EdgeWeights[], int size)
 	return totalWeight;
 }
 
-int MST_algorithms::Kruskal(const WeightedGraph& graph)
+int MST_algorithms::Kruskal(const WeightedGraph& graph, vector<Edge*>& graphEdgesArray)
 {
 	int srcRepresentive, destRepresentive;
 	vector<Edge*> forest;
 	DisjointSets UnionFind;
-	vector<Edge*> graphEdgesArray;
 	int weight = 0;
 
 	UnionFind.CreateEmpty(graph.getGraphSize());
-	graphEdgesArray = graph.getEdgesArr();
-	QuickSort::quickSort(graphEdgesArray, 0, graphEdgesArray.size() - 1);
+
 
 	for (int i = 0; i < graph.getGraphSize(); i++)
 	{

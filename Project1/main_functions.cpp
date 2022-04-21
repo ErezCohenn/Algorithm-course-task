@@ -3,7 +3,7 @@
 void runMstAlgorithms(int argc, char* argv[])
 {
 	WeightedGraph graph;
-
+	vector<Edge*> graphEdgesArray;
 	Edge* edgeToDelete = nullptr;
 	int resPrim, resKruskal, resKruskalAfterRemoveEdge;
 	bool isGraphLinked;
@@ -14,18 +14,30 @@ void runMstAlgorithms(int argc, char* argv[])
 	}
 
 	makeGraphFromFileInput(argv[1], graph, edgeToDelete);
+	isGraphLinked = graph.isGraphLinked();
+
+	if (!isGraphLinked)
+	{
+		printErrorInput();
+	}
+
+	graphEdgesArray = graph.getEdgesArr();
+	QuickSort::quickSort(graphEdgesArray, 0, graphEdgesArray.size() - 1);
 
 	resPrim = MST_algorithms::Prim(graph);
 
-	resKruskal = MST_algorithms::Kruskal(graph);
+	resKruskal = MST_algorithms::Kruskal(graph, graphEdgesArray);
 
+	removeEdgeFromGraphEdgesArr(graphEdgesArray, edgeToDelete);
 	graph.removeEdge(edgeToDelete->vertex, edgeToDelete->twin->vertex);
+
+
 
 	isGraphLinked = graph.isGraphLinked();
 
 	if (isGraphLinked)
 	{
-		resKruskalAfterRemoveEdge = MST_algorithms::Kruskal(graph);
+		resKruskalAfterRemoveEdge = MST_algorithms::Kruskal(graph, graphEdgesArray);
 	}
 
 	ofstream outputMST(argv[2]);
@@ -240,4 +252,18 @@ void convertStringToEdge(string& line, int amountOfVertexes, int& srcVertex, int
 bool isValidVertex(int vertex, int maxVertex)
 {
 	return (vertex >= 1 && vertex <= maxVertex);
+}
+
+void removeEdgeFromGraphEdgesArr(vector<Edge*>& edgesArray, Edge* edgeToDelete)
+{
+	bool found = false;
+
+	for (int i = 0; i < edgesArray.size() && !found; i++)
+	{
+		if (edgesArray[i]->vertex == edgeToDelete->vertex && edgesArray[i]->twin->vertex == edgeToDelete->twin->vertex)
+		{
+			edgesArray.erase(edgesArray.begin() + i);
+			found = true;
+		}
+	}
 }
