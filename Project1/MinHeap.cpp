@@ -32,8 +32,7 @@ const Pair& MinHeap::Min() const
 
 	else
 	{
-		cout << "Invalid input" << endl;
-		exit(1);
+		throw "invalid input";
 	}
 }
 
@@ -41,8 +40,7 @@ Pair MinHeap::DeleteMin()
 {
 	if (data.size() < 1)
 	{
-		cout << "Invalid input" << endl;
-		exit(1);
+		throw "invalid input";
 	}
 
 	Pair min = data[0];
@@ -87,8 +85,7 @@ void MinHeap::DecreaseKey(int place, int newKey)
 {
 	if (place >= data.size() || place < 0)
 	{
-		cout << "Invalid input" << endl;
-		exit(1);
+		throw "invalid input";
 	}
 	
 	Pair item = data[place];
@@ -113,8 +110,7 @@ bool MinHeap::isEmpty()
 	}
 	else if (data.size() < 0)
 	{
-		cout << "Invalid input";
-		exit(1);
+		throw "invalid input";
 	}
 	else
 		return false;

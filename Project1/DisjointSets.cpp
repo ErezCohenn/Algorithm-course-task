@@ -34,8 +34,7 @@ void DisjointSets::MakeSet(int newRepresentative)
 {
 	if (newRepresentative > maxSize)
 	{
-		cout << "Invalid input" << endl;
-		exit(1);
+		throw "invalid input";
 	}
 
 	forest[newRepresentative].parent = newRepresentative;
@@ -46,8 +45,7 @@ int DisjointSets::Find(int element)
 {
 	if (element > forest.size())
 	{
-		cout << "Invalid input";
-		exit(1);
+		throw "invalid input";
 	}
 
 	if (forest[element].parent == element)
@@ -66,8 +64,7 @@ void DisjointSets::Union(int representativeSetx, int representativeSety)
 {
 	if (forest[representativeSetx].parent != representativeSetx || forest[representativeSety].parent != representativeSety) // if repx or repxy are not representative of set
 	{
-		cout << "Invalid input";
-		exit(1);
+		throw "invalid input";
 	}
 
 	if (forest[representativeSetx].size > forest[representativeSety].size)

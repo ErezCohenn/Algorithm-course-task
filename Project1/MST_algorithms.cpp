@@ -12,8 +12,7 @@ int MST_algorithms::Prim(const WeightedGraph& graph)
 
 	if (graph.getGraphSize() <= 0)
 	{
-		cout << "Invalid input";
-		exit(1);
+		throw "invalid input";
 	}
 
 	initializePrim(minWeight, parent, vertexInMst, graph.getGraphSize());
@@ -82,8 +81,7 @@ int MST_algorithms::countMSTWeight(int EdgeWeights[], int size)
 
 	if (size < 1)
 	{
-		cout << "wrong input";
-		exit(1);
+		throw "invalid input";
 	}
 
 	totalWeight = EdgeWeights[0];
@@ -96,10 +94,26 @@ int MST_algorithms::countMSTWeight(int EdgeWeights[], int size)
 	return totalWeight;
 }
 
-int MST_algorithms::Kruskal(const WeightedGraph& graph, vector<Edge*>& graphEdgesArray)
+bool MST_algorithms::isEdgeInMst(Edge* edgeToRemove, vector<Edge*>& Mst)
+{
+	for (int i = 0; i < Mst.size(); i++)
+	{
+		if (Mst[i]->vertex == edgeToRemove->vertex && Mst[i]->twin->vertex == edgeToRemove->twin->vertex)
+		{
+			return true;
+		}
+		else if (Mst[i]->vertex == edgeToRemove->twin->vertex && Mst[i]->twin->vertex == edgeToRemove->vertex)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+int MST_algorithms::Kruskal(const WeightedGraph& graph, vector<Edge*>& graphEdgesArray, vector<Edge*>& Mst)
 {
 	int srcRepresentive, destRepresentive;
-	vector<Edge*> forest;
 	DisjointSets UnionFind;
 	int weight = 0;
 
@@ -117,13 +131,13 @@ int MST_algorithms::Kruskal(const WeightedGraph& graph, vector<Edge*>& graphEdge
 		destRepresentive = UnionFind.Find(graphEdgesArray[i]->twin->vertex - 1); // finds v representive
 		if (srcRepresentive != destRepresentive)
 		{
-			forest.push_back(graphEdgesArray[i]);
+			Mst.push_back(graphEdgesArray[i]);
 			UnionFind.Union(srcRepresentive, destRepresentive);
 		}
 	}
-	for (int i = 0; i < forest.size(); i++)
+	for (int i = 0; i < Mst.size(); i++)
 	{
-		weight += forest[i]->edgeWeight;
+		weight += Mst[i]->edgeWeight;
 	}
 
 	return weight;

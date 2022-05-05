@@ -5,8 +5,7 @@ bool WeightedGraph::isAdjacent(int u, int v)
 {
 	if (u > numberOfVertex || v > numberOfVertex || u <= 0 || v <= 0)
 	{
-		cout << "Invalid input";
-		exit(1);
+		throw "invalid input";
 	}
 
 	Edge* currentEdge = adjListArray[u - 1]->getHead();
@@ -26,8 +25,7 @@ void WeightedGraph::addEdge(int u, int v, int c)
 {
 	if (u > numberOfVertex || v > numberOfVertex || u <= 0 || v <= 0)
 	{
-		cout << "Invalid input";
-		exit(1);
+		throw "invalid input";
 	}
 
 	if (!isAdjacent(u, v))
@@ -43,8 +41,7 @@ void WeightedGraph::addEdge(int u, int v, int c)
 {
 	if (u > numberOfVertex || u <= 0)
 	{
-		cout << "Invalid input";
-		exit(1);
+		throw "invalid input";
 	}
 	return adjListArray[u - 1];
 }
@@ -53,8 +50,7 @@ void WeightedGraph::removeEdge(int u, int v)
 {
 	if (u > numberOfVertex || v > numberOfVertex || u <= 0 || v <= 0)
 	{
-		cout << "Invalid input";
-		exit(1);
+		throw "invalid input";
 	}
 
 	bool edgeToDeleteFound = false;

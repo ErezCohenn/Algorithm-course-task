@@ -14,8 +14,7 @@ using std::ofstream;
 using std::getline;
 
 void runMstAlgorithms(int argc, char* argv[]);
-void makeGraphFromFileInput(const char inputFile[], WeightedGraph& graph, Edge*& edgeToDelete);
-void printErrorInput();
+void makeGraphFromFileInput(ifstream& graphInput, WeightedGraph& graph, Edge*& edgeToDelete);
 bool isNumeric(const string& strToCheck);
 int convertStringToNumeric(const string& strToConvert);
 void convertStringToEdge(string& line, int amountOfVertexes, int& srcVertex, int& destVertex, int& weight);

@@ -4,67 +4,83 @@ void runMstAlgorithms(int argc, char* argv[])
 {
 	WeightedGraph graph;
 	vector<Edge*> graphEdgesArray;
+	vector<Edge*> MstArray;
 	Edge* edgeToDelete = nullptr;
 	int resPrim, resKruskal, resKruskalAfterRemoveEdge;
 	bool isGraphLinked;
-
-	if (argc != 3)
-	{
-		printErrorInput();
-	}
-
-	makeGraphFromFileInput(argv[1], graph, edgeToDelete);
-	isGraphLinked = graph.isGraphLinked();
-
-	if (!isGraphLinked)
-	{
-		printErrorInput();
-	}
-
-	graphEdgesArray = graph.getEdgesArr();
-	QuickSort::quickSort(graphEdgesArray, 0, graphEdgesArray.size() - 1);
-
-	resPrim = MST_algorithms::Prim(graph);
-
-	resKruskal = MST_algorithms::Kruskal(graph, graphEdgesArray);
-
-	removeEdgeFromGraphEdgesArr(graphEdgesArray, edgeToDelete);
-	graph.removeEdge(edgeToDelete->vertex, edgeToDelete->twin->vertex);
-
-
-
-	isGraphLinked = graph.isGraphLinked();
-
-	if (isGraphLinked)
-	{
-		resKruskalAfterRemoveEdge = MST_algorithms::Kruskal(graph, graphEdgesArray);
-	}
-
+	ifstream graphInput(argv[1]);
 	ofstream outputMST(argv[2]);
 
-	if (!outputMST.is_open())
+	try
 	{
-		printErrorInput();
+		if (argc != 3)
+		{
+			throw "invalid input";
+		}
+
+		if (!outputMST.is_open() || !graphInput.is_open())
+		{
+			throw "invalid input";
+		}
+
+		makeGraphFromFileInput(graphInput, graph, edgeToDelete);
+		isGraphLinked = graph.isGraphLinked();
+
+		if (!isGraphLinked)
+		{
+			throw "No MST";
+		}
+
+		graphEdgesArray = graph.getEdgesArr();
+		QuickSort::quickSort(graphEdgesArray, 0, graphEdgesArray.size() - 1);
+
+		resPrim = MST_algorithms::Prim(graph);
+
+		resKruskal = MST_algorithms::Kruskal(graph, graphEdgesArray, MstArray);
+
+		if (MST_algorithms::isEdgeInMst(edgeToDelete, MstArray))
+		{
+			removeEdgeFromGraphEdgesArr(graphEdgesArray, edgeToDelete);
+			graph.removeEdge(edgeToDelete->vertex, edgeToDelete->twin->vertex);
+
+			isGraphLinked = graph.isGraphLinked();
+
+			if (isGraphLinked)
+			{
+				MstArray.clear();
+				resKruskalAfterRemoveEdge = MST_algorithms::Kruskal(graph, graphEdgesArray, MstArray);
+			}
+		}
+		else
+		{
+			isGraphLinked = true;
+			resKruskalAfterRemoveEdge = resKruskal;
+		}
+
+		cout << "Kruskal " << resKruskal << endl << "Prim " << resPrim << endl;
+		outputMST << "Kruskal " << resKruskal << endl << "Prim " << resPrim << endl;
+
+		if (isGraphLinked)
+		{
+			cout << "Kruskal2 " << resKruskalAfterRemoveEdge << endl;
+			outputMST << "Kruskal2 " << resKruskalAfterRemoveEdge << endl;
+		}
+		else
+		{
+			throw "No MST";
+		}
 	}
-
-	cout << "Kruskal " << resKruskal << endl << "Prim " << resPrim << endl;
-	outputMST << "Kruskal " << resKruskal << endl << "Prim " << resPrim << endl;
-
-	if (isGraphLinked)
+	catch (char const* message)
 	{
-		cout << "Kruskal2 " << resKruskalAfterRemoveEdge << endl;
-		outputMST << "Kruskal2 " << resKruskalAfterRemoveEdge << endl;
+		cout << message << endl;
+		outputMST << message << endl;
+		graphInput.close();
+		outputMST.close();
+		exit(1);
 	}
-	else
-	{
-		cout << "No MST" << endl;
-		outputMST << "No MST" << endl;
-	}
-
-	outputMST.close();
 }
 
-void makeGraphFromFileInput(const char inputFile[], WeightedGraph& graph, Edge*& edgeToDelete)
+void makeGraphFromFileInput(ifstream& graphInput, WeightedGraph& graph, Edge*& edgeToDelete)
 {
 	int amountOfVertexes;
 	int amountOfEdges;
@@ -73,18 +89,12 @@ void makeGraphFromFileInput(const char inputFile[], WeightedGraph& graph, Edge*&
 	int srcVertex, destVertex, weight;
 	int index;
 
-	ifstream graphInput(inputFile);
-
-	if (!graphInput.is_open())
-	{
-		cout << "Invalid input";
-	}
 
 	getline(graphInput, userInput);
 
 	if (!isNumeric(userInput))
 	{
-		printErrorInput();
+		throw "invalid input";
 	}
 	else
 	{
@@ -97,7 +107,7 @@ void makeGraphFromFileInput(const char inputFile[], WeightedGraph& graph, Edge*&
 
 	if (!isNumeric(userInput))
 	{
-		printErrorInput();
+		throw "invalid input";
 	}
 	else
 	{
@@ -108,7 +118,7 @@ void makeGraphFromFileInput(const char inputFile[], WeightedGraph& graph, Edge*&
 	{
 		if (graphInput.eof())
 		{
-			printErrorInput();
+			throw "invalid input";
 		}
 
 		getline(graphInput, line);
@@ -117,7 +127,7 @@ void makeGraphFromFileInput(const char inputFile[], WeightedGraph& graph, Edge*&
 
 		if (graph.isAdjacent(srcVertex, destVertex))
 		{
-			printErrorInput();
+			throw "invalid input";
 		}
 
 		graph.addEdge(srcVertex, destVertex, weight);
@@ -125,7 +135,7 @@ void makeGraphFromFileInput(const char inputFile[], WeightedGraph& graph, Edge*&
 
 	if (graphInput.eof())
 	{
-		printErrorInput();
+		throw "invalid input";
 	}
 
 	getline(graphInput, line);
@@ -136,7 +146,7 @@ void makeGraphFromFileInput(const char inputFile[], WeightedGraph& graph, Edge*&
 
 	if (!isNumeric(srcVertexStr))
 	{
-		printErrorInput();
+		throw "invalid input";
 	}
 
 	srcVertex = convertStringToNumeric(srcVertexStr);
@@ -146,30 +156,24 @@ void makeGraphFromFileInput(const char inputFile[], WeightedGraph& graph, Edge*&
 
 	if (!isNumeric(destVertexStr))
 	{
-		printErrorInput();
+		throw "invalid input";
 	}
 
 	destVertex = convertStringToNumeric(destVertexStr);
 
 	if (!graphInput.eof())
 	{
-		printErrorInput();
+		throw "invalid input";
 	}
 
 	if (!graph.isAdjacent(srcVertex, destVertex))
 	{
-		printErrorInput();
+		throw "invalid input";
 	}
 
 	edgeToDelete = graph.getEdge(srcVertex, destVertex);
 
 	graphInput.close();
-}
-
-void printErrorInput()
-{
-	cout << "Invalid input";
-	exit(1);
 }
 
 bool isNumeric(const string& strToCheck)
@@ -210,14 +214,14 @@ void convertStringToEdge(string& line, int amountOfVertexes, int& srcVertex, int
 
 	if (!isNumeric(srcVertexStr))
 	{
-		printErrorInput();
+		throw "invalid input";
 	}
 
 	srcVertex = convertStringToNumeric(srcVertexStr);
 
 	if (!isValidVertex(srcVertex, amountOfVertexes))
 	{
-		printErrorInput();
+		throw "invalid input";
 	}
 
 	// check valid destVertex
@@ -227,14 +231,14 @@ void convertStringToEdge(string& line, int amountOfVertexes, int& srcVertex, int
 
 	if (!isNumeric(destVertexStr))
 	{
-		printErrorInput();
+		throw "invalid input";
 	}
 
 	destVertex = convertStringToNumeric(destVertexStr);
 
 	if (!isValidVertex(destVertex, amountOfVertexes))
 	{
-		printErrorInput();
+		throw "invalid input";
 	}
 
 	// check valid weight and Edge
@@ -243,7 +247,7 @@ void convertStringToEdge(string& line, int amountOfVertexes, int& srcVertex, int
 
 	if (!isNumeric(weightStr))
 	{
-		printErrorInput();
+		throw "invalid input";
 	}
 
 	weight = convertStringToNumeric(weightStr);
