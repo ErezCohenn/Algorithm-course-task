@@ -269,5 +269,10 @@ void removeEdgeFromGraphEdgesArr(vector<Edge*>& edgesArray, Edge* edgeToDelete)
 			edgesArray.erase(edgesArray.begin() + i);
 			found = true;
 		}
+		else if (edgesArray[i]->vertex == edgeToDelete->twin->vertex && edgesArray[i]->twin->vertex == edgeToDelete->vertex)
+		{
+			edgesArray.erase(edgesArray.begin() + i);
+			found = true;
+		}
 	}
 }
